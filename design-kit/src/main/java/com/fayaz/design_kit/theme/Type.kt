@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.ui.theme
+package com.fayaz.design_kit.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
