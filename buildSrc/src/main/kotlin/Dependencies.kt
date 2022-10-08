@@ -5,6 +5,7 @@ import Versions.LIFECYCLE_RUNTIME
 import Versions.ACTIVITY_COMPOSE
 import Versions.JUNIT
 import Versions.ANDROIDX_JUNIT
+import Versions.APP_COMPAT
 import Versions.EXPRESSO_CORE
 
 object Dependencies {
@@ -12,6 +13,7 @@ object Dependencies {
         val splashScreen by lazy { "androidx.core:core-splashscreen:$SPLASH_SCREEN" }
         val core by lazy { "androidx.core:core-ktx:$ANDROIDX_CORE" }
         val lifecycleRuntime by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_RUNTIME" }
+        val appCompat by lazy { "androidx.appcompat:appcompat:$APP_COMPAT" }
     }
 
     object Compose {

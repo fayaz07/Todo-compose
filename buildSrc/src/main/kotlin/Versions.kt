@@ -1,5 +1,6 @@
 object Versions {
     const val ANDROIDX_CORE = "1.9.0"
+    const val APP_COMPAT = "1.5.1"
     const val SPLASH_SCREEN = "1.0.0"
     const val LIFECYCLE_RUNTIME = "2.5.1"
 
