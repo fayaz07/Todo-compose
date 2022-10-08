@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    implementation(project(path= ":design-kit"))
+    implementation(project(Modules.designKit))
 
     implementation(Dependencies.AndroidX.splashScreen)
     implementation(Dependencies.AndroidX.core)
