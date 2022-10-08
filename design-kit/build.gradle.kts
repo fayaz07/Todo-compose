@@ -4,21 +4,24 @@ plugins {
 }
 
 android {
-    namespace = "com.fayaz.design_kit"
-    compileSdk = 33
+    namespace = "com.fayaz.todo_jc.design_kit"
+    compileSdk = 32
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 32
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        named("release") {
+        release {
             isMinifyEnabled = false
-            setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -37,12 +40,13 @@ android {
 }
 
 dependencies {
+
+    implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.Compose.ui)
     implementation(Dependencies.Compose.material)
-    implementation(Dependencies.AndroidX.core)
-    implementation(Dependencies.AndroidX.appCompat)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidxJUnit)
     androidTestImplementation(Dependencies.Test.expressoCore)
+    androidTestImplementation(Dependencies.Test.composeJunit)
 }

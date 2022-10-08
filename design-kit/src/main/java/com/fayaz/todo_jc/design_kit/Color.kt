@@ -1,4 +1,4 @@
-package com.fayaz.design_kit.theme
+package com.fayaz.todo_jc.design_kit
 
 import androidx.compose.ui.graphics.Color
 

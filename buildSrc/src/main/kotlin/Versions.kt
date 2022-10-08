@@ -10,5 +10,4 @@ object Versions {
     const val JUNIT = "4.13.2"
     const val ANDROIDX_JUNIT = "1.1.3"
     const val EXPRESSO_CORE = "3.4.0"
-
 }
