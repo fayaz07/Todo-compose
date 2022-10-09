@@ -1,3 +1,4 @@
+@file:Suppress("MagicNumber")
 package com.fayaz.todo_jc.design_kit
 
 import androidx.compose.ui.graphics.Color

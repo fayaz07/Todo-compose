@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -8,14 +9,8 @@ plugins {
     id(Plugins.detekt) version PluginVersions.detekt apply true
 }
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath(BuildPlugins.detekt)
-    }
+tasks.register<Delete>("clean").configure {
+    delete(rootProject.buildDir)
 }
 
 detekt {
@@ -32,6 +27,21 @@ tasks.withType<Detekt> {
     exclude("buildSrc/settings.gradle.kts")
 }
 
-tasks.register<Delete>("clean").configure {
-    delete(rootProject.buildDir)
+tasks.withType<Detekt>().configureEach {
+    jvmTarget = "1.8"
+}
+
+tasks.withType<DetektCreateBaselineTask>().configureEach {
+    jvmTarget = "1.8"
+}
+
+allprojects {
+    apply(plugin = Plugins.detekt)
+
+    detekt {
+        config = files("${rootDir}/detekt.yml")
+
+        allRules = true
+        buildUponDefaultConfig = true
+    }
 }

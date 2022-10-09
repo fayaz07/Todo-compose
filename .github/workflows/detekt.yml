@@ -1,0 +1,11 @@
+name: detekt
+
+on: [ push ]
+
+jobs:
+  detekt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          ./gradlew detekt

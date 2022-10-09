@@ -119,7 +119,7 @@ complexity:
     threshold: 600
   LongMethod:
     active: true
-    threshold: 40
+    threshold: 60
   LongParameterList:
     active: true
     functionThreshold: 6
@@ -355,7 +355,7 @@ naming:
     privatePropertyPattern: '(_)?[A-Za-z][_A-Za-z0-9]*'
   PackageNaming:
     active: true
-    packagePattern: '[a-z]+(\.[a-z][A-Za-z0-9]*)*'
+    packagePattern: '[a-z]+(\.[a-z][A-Za-z_0-9]*)*'
   TopLevelPropertyNaming:
     active: true
     constantPattern: '[A-Z][_A-Z0-9]*'
@@ -551,7 +551,7 @@ style:
     active: true
     ignoreOverridableFunction: true
     ignoreActualFunction: true
-    excludedFunctions: ''
+    excludedFunctions: []
   LibraryCodeMustSpecifyReturnType:
     active: true
     excludes: ['**']
@@ -627,7 +627,8 @@ style:
   ReturnCount:
     active: true
     max: 2
-    excludedFunctions: 'equals'
+    excludedFunctions:
+      - 'equals'
     excludeLabeled: false
     excludeReturnFromLambda: true
     excludeGuardClauses: false
