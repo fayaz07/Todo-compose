@@ -7,6 +7,7 @@ import Versions.JUNIT
 import Versions.ANDROIDX_JUNIT
 import Versions.APP_COMPAT
 import Versions.EXPRESSO_CORE
+import Versions.NAVIGATION
 
 object Dependencies {
     object AndroidX {
@@ -22,6 +23,7 @@ object Dependencies {
         val toolingPreview by lazy { "androidx.compose.ui:ui-tooling-preview:$COMPOSE" }
         val activity by lazy { "androidx.activity:activity-compose:$ACTIVITY_COMPOSE" }
         val uiTooling by lazy { "androidx.compose.ui:ui-tooling:$COMPOSE" }
+        val navigation by lazy { "androidx.navigation:navigation-compose:$NAVIGATION" }
     }
 
     object Test {

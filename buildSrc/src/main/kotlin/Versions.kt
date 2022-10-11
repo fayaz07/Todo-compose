@@ -5,6 +5,7 @@ object Versions {
     const val LIFECYCLE_RUNTIME = "2.5.1"
 
     const val COMPOSE = "1.2.1"
+    const val NAVIGATION = "2.5.2"
     const val ACTIVITY_COMPOSE = "1.6.0"
 
     const val JUNIT = "4.13.2"

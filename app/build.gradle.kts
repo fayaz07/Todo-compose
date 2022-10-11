@@ -59,6 +59,7 @@ dependencies {
     implementation(Dependencies.Compose.material)
     implementation(Dependencies.Compose.toolingPreview)
     implementation(Dependencies.Compose.activity)
+    implementation(Dependencies.Compose.navigation)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidxJUnit)
