@@ -54,10 +54,15 @@ class OnboardingActivity : ComponentActivity() {
           enabled = pagerState.currentPage == onboardingData.size - 1 && !pagerState.isScrollInProgress,
           shape = RoundedCornerShape(64.dp),
           modifier = Modifier
-            .fillMaxWidth().padding(vertical = 16.dp),
-          onClick = { /*TODO*/ }) {
-          Text(text = "Launch", modifier = Modifier.padding(4.dp), style = MaterialTheme.typography.button
-            .copy(fontSize = 18.sp))
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+          onClick = { }) {
+          Text(
+            text = "Launch",
+            modifier = Modifier.padding(4.dp),
+            style = MaterialTheme.typography.button
+              .copy(fontSize = 18.sp)
+          )
         }
       }
     }
