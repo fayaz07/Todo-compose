@@ -5,4 +5,4 @@
 
 ## Screenshots
 
-<img src="screenshots/onboarding_1.png" height="33%" width="33%" /> <img src="screenshots/onboarding_2.png" height="33%" width="33%" />  <img src="screenshots/onboarding_3.png" height="33%" width="33%" /> 
+<img src="screenshots/onboarding_1.png" height="30%" width="30%" /> <img src="screenshots/onboarding_2.png" height="30%" width="30%" />  <img src="screenshots/onboarding_3.png" height="30%" width="30%" /> 
