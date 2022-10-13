@@ -4,6 +4,7 @@ object Config {
     // modules and appId
     const val appId = "com.fayaz.todo_jc"
     const val designKit = "com.fayaz.todo_jc.design_kit"
+    const val featureOnboarding = "com.fayaz.todo_jc.features.onboarding"
 
     const val compileSdk = 33
     const val targetSdk = compileSdk

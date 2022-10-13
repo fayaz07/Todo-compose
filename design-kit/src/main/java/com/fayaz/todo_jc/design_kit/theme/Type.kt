@@ -1,6 +1,8 @@
-package com.fayaz.todo_jc.design_kit
+package com.fayaz.todo_jc.design_kit.theme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -26,3 +28,7 @@ val Typography = Typography(
     )
     */
 )
+
+fun TextStyle.color(color: Color): TextStyle {
+  return copy(color = color)
+}

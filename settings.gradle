@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "Todo-jc"
 include ':app'
 include ':design-kit'
+include ':features:onboarding'

@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.design_kit
+package com.fayaz.todo_jc.design_kit.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = Config.designKit
+    namespace = Config.featureOnboarding
     compileSdk = Config.compileSdk
 
     defaultConfig {
@@ -13,6 +13,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -37,18 +40,27 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Config.ktCompilerExtVersion
     }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
-
+    implementation(project(Modules.designKit))
     implementation(Dependencies.AndroidX.core)
+    implementation(Dependencies.AndroidX.lifecycleRuntime)
 
-    implementation(Dependencies.Compose.toolingPreview)
-    implementation(Dependencies.Compose.material)
     implementation(Dependencies.Compose.ui)
+    implementation(Dependencies.Compose.material)
+    implementation(Dependencies.Compose.toolingPreview)
+    implementation(Dependencies.Compose.activity)
+    implementation(Dependencies.Compose.navigation)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidxJUnit)
     androidTestImplementation(Dependencies.Test.expressoCore)
     androidTestImplementation(Dependencies.Test.composeJunit)
+    debugImplementation(Dependencies.Compose.uiTooling)
 }
