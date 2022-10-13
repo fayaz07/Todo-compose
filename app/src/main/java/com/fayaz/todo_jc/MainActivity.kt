@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
     startActivity(
       Intent(this, OnboardingActivity::class.java)
     )
+    finish()
 
 //    setContent {
 //      AppTheme {

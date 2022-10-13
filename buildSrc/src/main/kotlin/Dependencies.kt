@@ -8,8 +8,16 @@ import Versions.ANDROIDX_JUNIT
 import Versions.APP_COMPAT
 import Versions.EXPRESSO_CORE
 import Versions.NAVIGATION
+import Versions.ACCOMPANIST
 
 object Dependencies {
+    object Google {
+        object Accompanist {
+            val pager by lazy { "com.google.accompanist:accompanist-pager:$ACCOMPANIST" }
+            val pagerIndicators by lazy { "com.google.accompanist:accompanist-pager-indicators:$ACCOMPANIST" }
+        }
+    }
+
     object AndroidX {
         val splashScreen by lazy { "androidx.core:core-splashscreen:$SPLASH_SCREEN" }
         val core by lazy { "androidx.core:core-ktx:$ANDROIDX_CORE" }

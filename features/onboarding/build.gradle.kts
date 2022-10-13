@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation(Dependencies.Google.Accompanist.pager)
+    implementation(Dependencies.Google.Accompanist.pagerIndicators)
     implementation(project(Modules.designKit))
     implementation(Dependencies.AndroidX.core)
     implementation(Dependencies.AndroidX.lifecycleRuntime)
