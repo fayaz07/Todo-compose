@@ -1,0 +1,16 @@
+name: uiTests
+
+on: [ push ]
+
+jobs:
+  uiTests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          script: ./gradlew connectedAndroidTest
