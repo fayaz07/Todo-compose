@@ -4,7 +4,7 @@ on: [ push ]
 
 jobs:
   uiTests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: checkout
         uses: actions/checkout@v3
