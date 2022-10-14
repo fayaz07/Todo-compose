@@ -6,9 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: run gradle build
+      - uses: actions/checkout@v3
       - run: |
           ./gradlew build
