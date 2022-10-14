@@ -64,5 +64,6 @@ dependencies {
     androidTestImplementation(Dependencies.Test.androidxJUnit)
     androidTestImplementation(Dependencies.Test.expressoCore)
     androidTestImplementation(Dependencies.Test.composeJunit)
+    androidTestImplementation(Dependencies.Test.composeManifest)
     debugImplementation(Dependencies.Compose.uiTooling)
 }

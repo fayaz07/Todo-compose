@@ -39,5 +39,6 @@ object Dependencies {
         val androidxJUnit by lazy { "androidx.test.ext:junit:$ANDROIDX_JUNIT" }
         val expressoCore by lazy { "androidx.test.espresso:espresso-core:$EXPRESSO_CORE" }
         val composeJunit by lazy { "androidx.compose.ui:ui-test-junit4:$COMPOSE" }
+        val composeManifest by lazy { "androidx.compose.ui:ui-test-manifest:$COMPOSE" }
     }
 }

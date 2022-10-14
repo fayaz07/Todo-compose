@@ -5,12 +5,10 @@
         <activity
             android:name=".OnboardingActivity"
             android:exported="false"
-            android:label="@string/title_activity_onboarding"
-            android:theme="@style/Theme.Todocompose">
+            android:label="@string/title_activity_onboarding">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
     </application>
-
 </manifest>
