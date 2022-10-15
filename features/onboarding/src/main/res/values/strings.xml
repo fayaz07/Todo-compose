@@ -1,4 +1,5 @@
 <resources>
     <string name="title_activity_onboarding">OnboardingActivity</string>
     <string name="onboarding_cd_main_image">onboarding_page_image</string>
+    <string name="onboarding_launch_button">Launch</string>
 </resources>

@@ -9,7 +9,6 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,7 +33,7 @@ class OnboardingPageTest {
     }
     composeTestRule.onNodeWithText(pageData.title).assertIsDisplayed()
     composeTestRule.onNodeWithText(pageData.description).assertIsDisplayed()
-    composeTestRule.onNodeWithContentDescription(getContext().getString(R.string.onboarding_cd_main_image))
+    composeTestRule.onNodeWithContentDescription(getTestContext().getString(R.string.onboarding_cd_main_image))
       .assertIsDisplayed()
   }
 
@@ -55,10 +54,8 @@ class OnboardingPageTest {
     }
     composeTestRule.onNodeWithText(pageData.title).performClick().assertIsDisplayed()
     composeTestRule.onNodeWithText(pageData.description).performClick().assertIsDisplayed()
-    composeTestRule.onNodeWithContentDescription(getContext().getString(R.string.onboarding_cd_main_image))
+    composeTestRule.onNodeWithContentDescription(getTestContext().getString(R.string.onboarding_cd_main_image))
       .performClick()
       .assertIsDisplayed()
   }
-
-  private fun getContext() = InstrumentationRegistry.getInstrumentation().targetContext
 }

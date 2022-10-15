@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
@@ -61,7 +62,7 @@ class OnboardingActivity : ComponentActivity() {
             .padding(vertical = 16.dp),
           onClick = { }) {
           Text(
-            text = "Launch",
+            text = stringResource(R.string.onboarding_launch_button),
             modifier = Modifier.padding(4.dp),
             style = MaterialTheme.typography.button
               .copy(fontSize = 18.sp)
