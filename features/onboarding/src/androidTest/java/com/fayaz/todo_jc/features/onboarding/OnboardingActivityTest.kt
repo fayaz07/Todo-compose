@@ -1,12 +1,9 @@
 package com.fayaz.todo_jc.features.onboarding
 
-import android.graphics.Bitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
@@ -16,9 +13,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.runner.screenshot.Screenshot
-import java.io.FileOutputStream
+import com.fayaz.todo_jc.utils.android_test.snapshot
+import com.fayaz.todo_jc.utils.android_test.useContext
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,12 +30,12 @@ class OnboardingActivityTest {
     val pageData = onboardingData[0]
     rule.onAllNodesWithText(pageData.title)[0].assertIsDisplayed()
     rule.onAllNodesWithText(pageData.description)[0].assertIsDisplayed()
-//    rule.onAllNodesWithContentDescription(
-//      useContext().getString(R.string.onboarding_cd_main_image)
-//    )[0].assertIsDisplayed()
-//
-//    rule.onNodeWithText(getTestContext().getString(R.string.onboarding_launch_button))
-//      .assertIsNotEnabled()
+    rule.onAllNodesWithContentDescription(
+      useContext().getString(R.string.onboarding_cd_main_image)
+    )[0].assertIsDisplayed()
+
+    rule.onNodeWithText(useContext().getString(R.string.onboarding_launch_button))
+      .assertIsNotEnabled()
   }
 
   @Test
@@ -50,12 +46,12 @@ class OnboardingActivityTest {
     val pageData = onboardingData[1]
     rule.onAllNodesWithText(pageData.title)[0].assertIsDisplayed()
     rule.onAllNodesWithText(pageData.description)[0].assertIsDisplayed()
-//    rule.onAllNodesWithContentDescription(
-//      getTestContext().getString(R.string.onboarding_cd_main_image)
-//    )[0].assertIsDisplayed()
-//
-//    rule.onNodeWithText(getTestContext().getString(R.string.onboarding_launch_button))
-//      .assertIsNotEnabled()
+    rule.onAllNodesWithContentDescription(
+      useContext().getString(R.string.onboarding_cd_main_image)
+    )[0].assertIsDisplayed()
+
+    rule.onNodeWithText(useContext().getString(R.string.onboarding_launch_button))
+      .assertIsNotEnabled()
   }
 
   @Test
@@ -67,9 +63,9 @@ class OnboardingActivityTest {
     val pageData = onboardingData[2]
     rule.onAllNodesWithText(pageData.title)[0].assertIsDisplayed()
     rule.onAllNodesWithText(pageData.description)[0].assertIsDisplayed()
-//    rule.onAllNodesWithContentDescription(
-//      getTestContext().getString(R.string.onboarding_cd_main_image)
-//    )[0].assertIsDisplayed()
+    rule.onAllNodesWithContentDescription(
+      useContext().getString(R.string.onboarding_cd_main_image)
+    )[0].assertIsDisplayed()
   }
 
   @Test
@@ -79,9 +75,9 @@ class OnboardingActivityTest {
         swipeLeft()
       }
     }
-//    rule.onNodeWithText(getTestContext().getString(R.string.onboarding_launch_button))
-//      .assertIsEnabled()
-//      .assertHasClickAction()
+    rule.onNodeWithText(useContext().getString(R.string.onboarding_launch_button))
+      .assertIsEnabled()
+      .assertHasClickAction()
   }
 
   @Test
@@ -92,11 +88,8 @@ class OnboardingActivityTest {
       }
       swipeRight()
     }
-//    rule.onNodeWithText(getTestContext().getString(R.string.onboarding_launch_button))
-//      .assertIsNotEnabled()
-    rule.onRoot()
-      .captureToImage()
-      .asAndroidBitmap()
-//      .save("OnboardingActivity.png")
+    rule.onNodeWithText(useContext().getString(R.string.onboarding_launch_button))
+      .assertIsNotEnabled()
+    rule.snapshot("OnboardingActivity.png")
   }
 }

@@ -7,6 +7,8 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onRoot
 import java.io.FileOutputStream
 
+const val SCREENSHOT_QUALITY = 100
+
 fun SemanticsNodeInteractionsProvider.snapshot(fileName: String) {
   onRoot()
     .captureToImage()
@@ -16,7 +18,7 @@ fun SemanticsNodeInteractionsProvider.snapshot(fileName: String) {
 
 fun Bitmap.save(fileName: String) {
   FileOutputStream(getScreenshotsPath(fileName)).use { out ->
-    compress(Bitmap.CompressFormat.PNG, 100, out)
+    compress(Bitmap.CompressFormat.PNG, SCREENSHOT_QUALITY, out)
   }
 }
 

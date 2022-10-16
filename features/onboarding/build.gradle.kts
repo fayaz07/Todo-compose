@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+  androidTestImplementation(project(Modules.utils.androidTest))
+
   implementation(Dependencies.Google.Accompanist.pager)
   implementation(Dependencies.Google.Accompanist.pagerIndicators)
   implementation(project(Modules.designKit))
