@@ -28,11 +28,11 @@ tasks.withType<Detekt> {
 }
 
 tasks.withType<Detekt>().configureEach {
-  jvmTarget = "1.8"
+  jvmTarget = Config.jvmTarget
 }
 
 tasks.withType<DetektCreateBaselineTask>().configureEach {
-  jvmTarget = "1.8"
+  jvmTarget = Config.jvmTarget
 }
 
 allprojects {

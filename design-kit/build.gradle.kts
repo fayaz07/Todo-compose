@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-  namespace = Config.namespaces.designKit
+  namespace = Modules.namespaces.designKit
   compileSdk = Config.compileSdk
 
   defaultConfig {

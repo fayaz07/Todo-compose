@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-  namespace = Config.namespaces.featureOnboarding
+  namespace = Modules.namespaces.featureOnboarding
   compileSdk = Config.compileSdk
 
   defaultConfig {

@@ -1,13 +1,6 @@
 import org.gradle.api.JavaVersion
 
 object Config {
-  object namespaces {
-    const val appId = "com.fayaz.todo_jc"
-    const val designKit = "com.fayaz.todo_jc.design_kit"
-    const val featureOnboarding = "com.fayaz.todo_jc.features.onboarding"
-    const val utilsAndroidTest = "com.fayaz.todo_jc.utils.android_test"
-  }
-
   const val compileSdk = 33
   const val targetSdk = compileSdk
   const val minSdk = 21

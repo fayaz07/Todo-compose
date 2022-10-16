@@ -7,7 +7,7 @@ android {
   compileSdk = Config.compileSdk
 
   defaultConfig {
-    applicationId = Config.namespaces.appId
+    applicationId = Modules.namespaces.appId
     minSdk = Config.minSdk
     targetSdk = Config.targetSdk
     versionCode = Config.versionCode
