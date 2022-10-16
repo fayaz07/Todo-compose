@@ -50,8 +50,6 @@ android {
 
 dependencies {
   implementation(project(Modules.designKit))
-  implementation(project(Modules.feature.onboarding))
-  implementation(project(Modules.feature.dashboard))
 
   implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)
