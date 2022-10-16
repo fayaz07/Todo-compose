@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc
+package com.fayaz.todo_jc.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -16,7 +16,6 @@ import com.fayaz.todo_jc.design_kit.theme.AppTheme
 class MainActivity : ComponentActivity() {
   private val viewModel: MainViewModel by viewModels()
   override fun onCreate(savedInstanceState: Bundle?) {
-
     super.onCreate(savedInstanceState)
 
     installSplashScreen().apply {

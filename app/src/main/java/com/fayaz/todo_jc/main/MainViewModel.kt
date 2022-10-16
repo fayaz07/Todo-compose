@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc
+package com.fayaz.todo_jc.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

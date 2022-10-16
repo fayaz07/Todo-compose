@@ -7,6 +7,7 @@ plugins {
   id(Plugins.androidLibrary) version PluginVersions.androidApplication apply false
   id(Plugins.kotlinAndroid) version PluginVersions.kotlinAndroid apply false
   id(Plugins.detekt) version PluginVersions.detekt apply true
+  id(Plugins.dagger) version PluginVersions.dagger apply false
 }
 
 tasks.register<Delete>(Tasks.CLEANUP).configure {
