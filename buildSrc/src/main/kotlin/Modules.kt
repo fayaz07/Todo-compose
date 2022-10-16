@@ -9,6 +9,7 @@ object Modules {
   object feature {
     private const val feature = ":features"
     const val onboarding = feature + ":onboarding"
+    const val dashboard = feature + ":dashboard"
   }
 
   object namespaces {
@@ -17,5 +18,6 @@ object Modules {
     const val featureOnboarding = "com.fayaz.todo_jc.features.onboarding"
     const val utilsAndroidTest = "com.fayaz.todo_jc.utils.android_test"
     const val core = "com.fayaz.todo_jc.core"
+    const val dashboard = "com.fayaz.todo_jc.features.dashboard"
   }
 }
