@@ -1,26 +1,25 @@
 plugins {
-  id(Plugins.androidApplication)
+  id(Plugins.androidLibrary)
   id(Plugins.kotlinAndroid)
 }
 
 android {
+  namespace = Modules.namespaces.dashboard
   compileSdk = Config.compileSdk
 
   defaultConfig {
-    applicationId = Modules.namespaces.appId
     minSdk = Config.minSdk
     targetSdk = Config.targetSdk
-    versionCode = Config.versionCode
-    versionName = Config.versionName
 
     testInstrumentationRunner = Config.testInstrumentationRunner
+    consumerProguardFiles(Config.proguard.consumerRules)
     vectorDrawables {
       useSupportLibrary = true
     }
   }
 
   buildTypes {
-    getByName(BuildTypes.RELEASE) {
+    release {
       isMinifyEnabled = false
       proguardFiles(
         getDefaultProguardFile(Config.proguard.defaultProguardFile),
@@ -30,7 +29,7 @@ android {
   }
   compileOptions {
     sourceCompatibility = Config.javaSourceCompatability
-    targetCompatibility = Config.javaSourceCompatability
+    targetCompatibility = Config.javaTargetCompatability
   }
   kotlinOptions {
     jvmTarget = Config.jvmTarget
@@ -49,11 +48,10 @@ android {
 }
 
 dependencies {
+  implementation(project(Modules.core))
   implementation(project(Modules.designKit))
-  implementation(project(Modules.feature.onboarding))
-  implementation(project(Modules.feature.dashboard))
+  androidTestImplementation(project(Modules.utils.androidTest))
 
-  implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)
   implementation(Dependencies.AndroidX.lifecycleRuntime)
 
@@ -67,5 +65,6 @@ dependencies {
   androidTestImplementation(Dependencies.Test.androidxJUnit)
   androidTestImplementation(Dependencies.Test.expressoCore)
   androidTestImplementation(Dependencies.Test.composeJunit)
+  androidTestImplementation(Dependencies.Test.composeManifest)
   debugImplementation(Dependencies.Compose.uiTooling)
 }
