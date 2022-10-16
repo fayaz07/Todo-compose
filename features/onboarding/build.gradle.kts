@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-  namespace = Config.featureOnboarding
+  namespace = Modules.namespaces.featureOnboarding
   compileSdk = Config.compileSdk
 
   defaultConfig {
     minSdk = Config.minSdk
     targetSdk = Config.targetSdk
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    consumerProguardFiles("consumer-rules.pro")
+    testInstrumentationRunner = Config.testInstrumentationRunner
+    consumerProguardFiles(Config.proguard.consumerRules)
     vectorDrawables {
       useSupportLibrary = true
     }
@@ -22,8 +22,8 @@ android {
     release {
       isMinifyEnabled = false
       proguardFiles(
-        getDefaultProguardFile("proguard-android-optimize.txt"),
-        "proguard-rules.pro"
+        getDefaultProguardFile(Config.proguard.defaultProguardFile),
+        Config.proguard.proguardRules
       )
     }
   }
@@ -42,12 +42,13 @@ android {
   }
   packagingOptions {
     resources {
-      excludes += "/META-INF/{AL2.0,LGPL2.1}"
+      excludes += Config.packagingOptions.excludedResources
     }
   }
 }
 
 dependencies {
+  implementation(project(Modules.core))
   androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.Google.Accompanist.pager)

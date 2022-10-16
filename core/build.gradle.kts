@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-  namespace = Modules.namespaces.utilsAndroidTest
+  namespace = Modules.namespaces.core
   compileSdk = Config.compileSdk
 
   defaultConfig {
@@ -35,8 +35,8 @@ android {
 
 dependencies {
   implementation(Dependencies.AndroidX.core)
+  implementation(Dependencies.JakeWharton.timber)
 
-  implementation(Dependencies.Test.androidxJUnit)
-  implementation(Dependencies.Test.expressoCore)
-  implementation(Dependencies.Test.composeJunit)
+  testImplementation(Dependencies.Test.junit)
+  androidTestImplementation(Dependencies.Test.androidxJUnit)
 }

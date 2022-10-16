@@ -7,24 +7,24 @@ android {
   compileSdk = Config.compileSdk
 
   defaultConfig {
-    applicationId = Config.appId
+    applicationId = Modules.namespaces.appId
     minSdk = Config.minSdk
     targetSdk = Config.targetSdk
     versionCode = Config.versionCode
     versionName = Config.versionName
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = Config.testInstrumentationRunner
     vectorDrawables {
       useSupportLibrary = true
     }
   }
 
   buildTypes {
-    getByName("release") {
+    getByName(BuildTypes.RELEASE) {
       isMinifyEnabled = false
       proguardFiles(
-        getDefaultProguardFile("proguard-android-optimize.txt"),
-        "proguard-rules.pro"
+        getDefaultProguardFile(Config.proguard.defaultProguardFile),
+        Config.proguard.proguardRules
       )
     }
   }
@@ -43,7 +43,7 @@ android {
   }
   packagingOptions {
     resources {
-      excludes += "/META-INF/{AL2.0,LGPL2.1}"
+      excludes += Config.packagingOptions.excludedResources
     }
   }
 }
