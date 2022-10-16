@@ -16,3 +16,4 @@ rootProject.name = "Todo-jc"
 include ':app'
 include ':design-kit'
 include ':features:onboarding'
+include ':utils:android-test'
