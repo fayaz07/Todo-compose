@@ -35,6 +35,7 @@ android {
 
 dependencies {
   implementation(Dependencies.AndroidX.core)
+  implementation(Dependencies.JakeWharton.timber)
 
   testImplementation(Dependencies.Test.junit)
   androidTestImplementation(Dependencies.Test.androidxJUnit)
