@@ -18,5 +18,4 @@ object Config {
 
     val javaSourceCompatability = JavaVersion.VERSION_1_8
     val javaTargetCompatability = JavaVersion.VERSION_1_8
-
 }

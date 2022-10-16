@@ -33,8 +33,8 @@ class OnboardingPageTest {
     }
     composeTestRule.onNodeWithText(pageData.title).assertIsDisplayed()
     composeTestRule.onNodeWithText(pageData.description).assertIsDisplayed()
-    composeTestRule.onNodeWithContentDescription(getTestContext().getString(R.string.onboarding_cd_main_image))
-      .assertIsDisplayed()
+//    composeTestRule.onNodeWithContentDescription(getTestContext().getString(R.string.onboarding_cd_main_image))
+//      .assertIsDisplayed()
   }
 
   @Test
@@ -54,8 +54,8 @@ class OnboardingPageTest {
     }
     composeTestRule.onNodeWithText(pageData.title).performClick().assertIsDisplayed()
     composeTestRule.onNodeWithText(pageData.description).performClick().assertIsDisplayed()
-    composeTestRule.onNodeWithContentDescription(getTestContext().getString(R.string.onboarding_cd_main_image))
-      .performClick()
-      .assertIsDisplayed()
+//    composeTestRule.onNodeWithContentDescription(getTestContext().getString(R.string.onboarding_cd_main_image))
+//      .performClick()
+//      .assertIsDisplayed()
   }
 }
