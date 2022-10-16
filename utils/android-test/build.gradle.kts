@@ -4,21 +4,24 @@ plugins {
 }
 
 android {
-  namespace = Config.utilsAndroidTest
+  namespace = Config.namespaces.utilsAndroidTest
   compileSdk = Config.compileSdk
 
   defaultConfig {
     minSdk = Config.minSdk
     targetSdk = Config.targetSdk
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    consumerProguardFiles("consumer-rules.pro")
+    testInstrumentationRunner = Config.testInstrumentationRunner
+    consumerProguardFiles(Config.proguard.consumerRules)
   }
 
   buildTypes {
     release {
       isMinifyEnabled = false
-      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+      proguardFiles(
+        getDefaultProguardFile(Config.proguard.defaultProguardFile),
+        Config.proguard.proguardRules
+      )
     }
   }
   compileOptions {

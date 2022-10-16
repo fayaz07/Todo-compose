@@ -9,13 +9,13 @@ plugins {
   id(Plugins.detekt) version PluginVersions.detekt apply true
 }
 
-tasks.register<Delete>("clean").configure {
+tasks.register<Delete>(Tasks.CLEANUP).configure {
   delete(rootProject.buildDir)
 }
 
 detekt {
   toolVersion = PluginVersions.detekt
-  config = files("$rootDir/detekt.yml")
+  config = files("$rootDir/${Config.detekt.configFilePath}")
 }
 
 tasks.withType<Detekt> {
@@ -39,7 +39,7 @@ allprojects {
   apply(plugin = Plugins.detekt)
 
   detekt {
-    config = files("${rootDir}/detekt.yml")
+    config = files("$rootDir/${Config.detekt.configFilePath}")
 
     allRules = true
     buildUponDefaultConfig = true
