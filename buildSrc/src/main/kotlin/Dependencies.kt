@@ -9,6 +9,7 @@ import Versions.APP_COMPAT
 import Versions.EXPRESSO_CORE
 import Versions.NAVIGATION
 import Versions.ACCOMPANIST
+import Versions.DAGGER
 import Versions.LEAK_CANARY
 import Versions.TIMBER
 
@@ -50,5 +51,10 @@ object Dependencies {
     val expressoCore by lazy { "androidx.test.espresso:espresso-core:$EXPRESSO_CORE" }
     val composeJunit by lazy { "androidx.compose.ui:ui-test-junit4:$COMPOSE" }
     val composeManifest by lazy { "androidx.compose.ui:ui-test-manifest:$COMPOSE" }
+  }
+
+  object DI {
+    val dagger by lazy { "com.google.dagger:hilt-android:$DAGGER" }
+    val daggerKapt by lazy { "com.google.dagger:hilt-android-compiler:$DAGGER" }
   }
 }

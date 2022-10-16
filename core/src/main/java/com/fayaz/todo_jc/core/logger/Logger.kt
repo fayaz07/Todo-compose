@@ -1,8 +1,16 @@
 package com.fayaz.todo_jc.core.logger
 
+import com.fayaz.todo_jc.core.BuildConfig
 import timber.log.Timber
 
 object Logger {
+
+  fun init() {
+    if (BuildConfig.DEBUG) {
+      Timber.plant(Timber.DebugTree())
+    }
+  }
+
   fun i(t: Throwable) {
     Timber.i(t)
   }

@@ -16,4 +16,6 @@ object Versions {
 
   const val TIMBER = "5.0.1"
   const val LEAK_CANARY = "2.9.1"
+
+  const val DAGGER = "2.44"
 }

@@ -1,6 +1,8 @@
 plugins {
   id(Plugins.androidApplication)
   id(Plugins.kotlinAndroid)
+  kotlin(Plugins.kapt)
+  id(Plugins.dagger)
 }
 
 android {
@@ -50,6 +52,10 @@ android {
 
 dependencies {
   implementation(project(Modules.designKit))
+  implementation(project(Modules.core))
+
+  implementation(Dependencies.DI.dagger)
+  kapt(Dependencies.DI.daggerKapt)
 
   implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)
@@ -66,4 +72,8 @@ dependencies {
   androidTestImplementation(Dependencies.Test.expressoCore)
   androidTestImplementation(Dependencies.Test.composeJunit)
   debugImplementation(Dependencies.Compose.uiTooling)
+}
+
+kapt {
+  correctErrorTypes = true
 }
