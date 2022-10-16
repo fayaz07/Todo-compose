@@ -1,11 +1,17 @@
 package com.fayaz.todo_jc
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.fayaz.todo_jc.features.onboarding.OnboardingActivity
+import com.fayaz.todo_jc.design_kit.theme.AppTheme
 
 class MainActivity : ComponentActivity() {
   private val viewModel: MainViewModel by viewModels()
@@ -18,21 +24,21 @@ class MainActivity : ComponentActivity() {
         viewModel.isLoading.value
       }
     }
-    startActivity(
-      Intent(this, OnboardingActivity::class.java)
-    )
-    finish()
+//    startActivity(
+//      Intent(this, OnboardingActivity::class.java)
+//    )
+//    finish()
 
-//    setContent {
-//      AppTheme {
-//        Surface(
-//          modifier = Modifier.fillMaxSize(),
-//          color = MaterialTheme.colors.background
-//        ) {
-//          Text(text = "Bonjour Elliot")
-//        }
-//      }
-//    }
+    setContent {
+      AppTheme {
+        Box(
+          modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center
+        ) {
+          Text(text = "Bonjour Elliot", style = MaterialTheme.typography.h4)
+        }
+      }
+    }
 
   }
 }
