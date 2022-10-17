@@ -23,12 +23,7 @@ class MainActivity : ComponentActivity() {
       }
     }
 
-//    startActivity(
-//      Intent(this, OnboardingActivity::class.java)
-//    )
-//    finish()
-
-//    showOnboardingActivity.show(this)
+    showOnboardingActivity.show(this)
 
 //    setContent {
 //      AppTheme {
@@ -40,6 +35,5 @@ class MainActivity : ComponentActivity() {
 //        }
 //      }
 //    }
-
   }
 }

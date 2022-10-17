@@ -54,7 +54,6 @@ dependencies {
   androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.DI.dagger)
-  kapt(Dependencies.DI.daggerKapt2)
   kapt(Dependencies.DI.daggerKapt)
 
   implementation(Dependencies.Google.Accompanist.pager)
