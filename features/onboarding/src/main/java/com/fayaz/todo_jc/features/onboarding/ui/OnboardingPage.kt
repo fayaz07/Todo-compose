@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.onboarding
+package com.fayaz.todo_jc.features.onboarding.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fayaz.todo_jc.design_kit.theme.color
+import com.fayaz.todo_jc.features.onboarding.R
 import com.fayaz.todo_jc.features.onboarding.data.OnboardingDataModel
 import com.fayaz.todo_jc.features.onboarding.data.onboardingData
 

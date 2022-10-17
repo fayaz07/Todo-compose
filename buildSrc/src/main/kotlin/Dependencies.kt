@@ -56,6 +56,5 @@ object Dependencies {
   object DI {
     val dagger by lazy { "com.google.dagger:hilt-android:$DAGGER" }
     val daggerKapt by lazy { "com.google.dagger:hilt-compiler:$DAGGER" }
-    val daggerKapt2 by lazy { "com.google.dagger:hilt-android-compiler:$DAGGER" }
   }
 }

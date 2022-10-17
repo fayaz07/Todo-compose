@@ -41,7 +41,6 @@ dependencies {
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
-  kapt(Dependencies.DI.daggerKapt2)
 
   testImplementation(Dependencies.Test.junit)
   androidTestImplementation(Dependencies.Test.androidxJUnit)

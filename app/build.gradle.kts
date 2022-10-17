@@ -53,10 +53,11 @@ android {
 dependencies {
   implementation(project(Modules.designKit))
   implementation(project(Modules.core))
+  implementation(project(Modules.feature.onboarding))
+  implementation(project(Modules.feature.dashboard))
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
-  kapt(Dependencies.DI.daggerKapt2)
 
   implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)

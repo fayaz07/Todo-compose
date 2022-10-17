@@ -1,6 +1,8 @@
 plugins {
   id(Plugins.androidLibrary)
   id(Plugins.kotlinAndroid)
+  id(Plugins.dagger)
+  kotlin(Plugins.kapt)
 }
 
 android {
@@ -52,6 +54,9 @@ dependencies {
   implementation(project(Modules.designKit))
   androidTestImplementation(project(Modules.utils.androidTest))
 
+  implementation(Dependencies.DI.dagger)
+  kapt(Dependencies.DI.daggerKapt)
+
   implementation(Dependencies.AndroidX.core)
   implementation(Dependencies.AndroidX.lifecycleRuntime)
 
@@ -68,3 +73,13 @@ dependencies {
   androidTestImplementation(Dependencies.Test.composeManifest)
   debugImplementation(Dependencies.Compose.uiTooling)
 }
+
+
+kapt {
+  correctErrorTypes = true
+}
+
+hilt {
+  enableAggregatingTask = true
+}
+

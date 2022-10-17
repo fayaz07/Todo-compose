@@ -11,6 +11,7 @@ import androidx.compose.ui.test.swipeLeft
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
 import com.fayaz.todo_jc.features.onboarding.data.OnboardingDataModel
+import com.fayaz.todo_jc.features.onboarding.ui.OnboardingPage
 import com.fayaz.todo_jc.utils.android_test.useContext
 import org.junit.Test
 import org.junit.runner.RunWith

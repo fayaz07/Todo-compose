@@ -19,16 +19,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fayaz.todo_jc.core.logger.actions.ShowDashboardActivity
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
-import com.fayaz.todo_jc.features.onboarding.OnboardingPage
 import com.fayaz.todo_jc.features.onboarding.R
 import com.fayaz.todo_jc.features.onboarding.data.onboardingData
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OnboardingActivity : ComponentActivity() {
+  @Inject
+  lateinit var showDashboardActivity: ShowDashboardActivity
+
   @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -63,7 +69,9 @@ class OnboardingActivity : ComponentActivity() {
           modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
-          onClick = { }) {
+          onClick = {
+            showDashboardActivity.show(this@OnboardingActivity)
+          }) {
           Text(
             text = stringResource(R.string.onboarding_launch_button),
             modifier = Modifier.padding(4.dp),
