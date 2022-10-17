@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.onboarding
+package com.fayaz.todo_jc.features.onboarding.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -20,6 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
+import com.fayaz.todo_jc.features.onboarding.OnboardingPage
+import com.fayaz.todo_jc.features.onboarding.R
+import com.fayaz.todo_jc.features.onboarding.data.onboardingData
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator

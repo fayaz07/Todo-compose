@@ -20,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fayaz.todo_jc.design_kit.theme.color
+import com.fayaz.todo_jc.features.onboarding.data.OnboardingDataModel
+import com.fayaz.todo_jc.features.onboarding.data.onboardingData
 
 @Composable
 fun OnboardingPage(item: OnboardingDataModel) {

@@ -13,6 +13,8 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.fayaz.todo_jc.features.onboarding.data.onboardingData
+import com.fayaz.todo_jc.features.onboarding.ui.OnboardingActivity
 import com.fayaz.todo_jc.utils.android_test.snapshot
 import com.fayaz.todo_jc.utils.android_test.useContext
 import org.junit.Rule
