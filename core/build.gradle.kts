@@ -1,6 +1,8 @@
 plugins {
   id(Plugins.androidLibrary)
   id(Plugins.kotlinAndroid)
+  id(Plugins.dagger)
+  kotlin(Plugins.kapt)
 }
 
 android {
@@ -37,6 +39,18 @@ dependencies {
   implementation(Dependencies.AndroidX.core)
   implementation(Dependencies.JakeWharton.timber)
 
+  implementation(Dependencies.DI.dagger)
+  kapt(Dependencies.DI.daggerKapt)
+  kapt(Dependencies.DI.daggerKapt2)
+
   testImplementation(Dependencies.Test.junit)
   androidTestImplementation(Dependencies.Test.androidxJUnit)
+}
+
+kapt {
+  correctErrorTypes = true
+}
+
+hilt {
+  enableAggregatingTask = true
 }

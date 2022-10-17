@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".OnboardingActivity"
+            android:name=".ui.OnboardingActivity"
             android:exported="false"
             android:label="@string/title_activity_onboarding">
             <meta-data

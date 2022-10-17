@@ -1,8 +1,8 @@
 plugins {
   id(Plugins.androidApplication)
   id(Plugins.kotlinAndroid)
-  kotlin(Plugins.kapt)
   id(Plugins.dagger)
+  kotlin(Plugins.kapt)
 }
 
 android {
@@ -56,6 +56,7 @@ dependencies {
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
+  kapt(Dependencies.DI.daggerKapt2)
 
   implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)
@@ -76,4 +77,8 @@ dependencies {
 
 kapt {
   correctErrorTypes = true
+}
+
+hilt {
+  enableAggregatingTask = true
 }

@@ -1,6 +1,8 @@
 plugins {
   id(Plugins.androidLibrary)
   id(Plugins.kotlinAndroid)
+  id(Plugins.dagger)
+  kotlin(Plugins.kapt)
 }
 
 android {
@@ -51,6 +53,10 @@ dependencies {
   implementation(project(Modules.core))
   androidTestImplementation(project(Modules.utils.androidTest))
 
+  implementation(Dependencies.DI.dagger)
+  kapt(Dependencies.DI.daggerKapt2)
+  kapt(Dependencies.DI.daggerKapt)
+
   implementation(Dependencies.Google.Accompanist.pager)
   implementation(Dependencies.Google.Accompanist.pagerIndicators)
   implementation(project(Modules.designKit))
@@ -69,4 +75,12 @@ dependencies {
   androidTestImplementation(Dependencies.Test.composeJunit)
   androidTestImplementation(Dependencies.Test.composeManifest)
   debugImplementation(Dependencies.Compose.uiTooling)
+}
+
+kapt {
+  correctErrorTypes = true
+}
+
+hilt {
+  enableAggregatingTask = true
 }

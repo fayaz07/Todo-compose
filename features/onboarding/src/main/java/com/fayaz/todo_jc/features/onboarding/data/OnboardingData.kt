@@ -1,4 +1,6 @@
-package com.fayaz.todo_jc.features.onboarding
+package com.fayaz.todo_jc.features.onboarding.data
+
+import com.fayaz.todo_jc.features.onboarding.R
 
 val onboardingData = listOf(
   OnboardingDataModel(
