@@ -3,10 +3,11 @@
 
     <application>
         <activity
-            android:name=".DashboardActivity"
+            android:name=".ui.DashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Todojc">
+            android:theme="@style/Theme.Todojc"
+            android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 

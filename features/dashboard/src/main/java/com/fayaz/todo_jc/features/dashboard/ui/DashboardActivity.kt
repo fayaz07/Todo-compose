@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.dashboard
+package com.fayaz.todo_jc.features.dashboard.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
-import com.fayaz.todo_jc.features.dashboard.DashboardEvent.ValidateText
+import com.fayaz.todo_jc.features.dashboard.ui.DashboardEvent.ValidateText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
