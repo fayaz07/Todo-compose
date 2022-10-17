@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.dashboard
+package com.fayaz.todo_jc.features.dashboard.ui
 
 import com.fayaz.todo_jc.core.logger.base.ViewEvent
 
