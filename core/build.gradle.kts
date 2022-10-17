@@ -33,11 +33,26 @@ android {
   kotlinOptions {
     jvmTarget = Config.jvmTarget
   }
+  buildFeatures {
+    compose = true
+  }
+  composeOptions {
+    kotlinCompilerExtensionVersion = Config.ktCompilerExtVersion
+  }
+  packagingOptions {
+    resources {
+      excludes += Config.packagingOptions.excludedResources
+    }
+  }
 }
 
 dependencies {
   implementation(Dependencies.AndroidX.core)
+  implementation(Dependencies.AndroidX.lifecycleRuntime)
   implementation(Dependencies.JakeWharton.timber)
+
+  implementation(Dependencies.AndroidX.lifecycleRuntime)
+  implementation(Dependencies.Compose.ui)
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
