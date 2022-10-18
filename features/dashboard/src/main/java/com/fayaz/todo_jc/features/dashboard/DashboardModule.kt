@@ -1,6 +1,6 @@
 package com.fayaz.todo_jc.features.dashboard
 
-import com.fayaz.todo_jc.core.logger.actions.ShowDashboardActivity
+import com.fayaz.todo_jc.core.actions.ShowDashboardActivity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

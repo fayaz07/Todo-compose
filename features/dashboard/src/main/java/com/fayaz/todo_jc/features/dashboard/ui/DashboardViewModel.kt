@@ -1,8 +1,6 @@
 package com.fayaz.todo_jc.features.dashboard.ui
 
-import com.fayaz.todo_jc.core.logger.base.StateViewModel
-import com.fayaz.todo_jc.features.dashboard.ui.DashboardEvent
-import com.fayaz.todo_jc.features.dashboard.ui.DashboardState
+import com.fayaz.todo_jc.core.base.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import javax.inject.Named
