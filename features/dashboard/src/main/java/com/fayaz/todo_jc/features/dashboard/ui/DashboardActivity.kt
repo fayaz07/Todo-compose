@@ -11,6 +11,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
@@ -37,7 +38,7 @@ class DashboardActivity : ComponentActivity() {
   @Composable
   fun Greeting() {
     val viewModel: DashboardViewModel = viewModel()
-    val state = viewModel.viewState.value
+    val state = viewModel.viewState.collectAsState().value
 
     Column {
       Text(text = "Hello ${viewModel.config} ${state.text}!")
