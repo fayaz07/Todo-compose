@@ -54,8 +54,13 @@ dependencies {
   implementation(Dependencies.AndroidX.lifecycleRuntime)
   implementation(Dependencies.Compose.ui)
 
+  implementation(Dependencies.Test.runner)
+
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
+
+  implementation(Dependencies.DI.hiltTest)
+  kapt(Dependencies.DI.hiltKaptTest)
 
   testImplementation(Dependencies.Test.junit)
   androidTestImplementation(Dependencies.Test.androidxJUnit)

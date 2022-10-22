@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc
+package com.fayaz.todo_jc.core
 
 import android.app.Application
 import android.content.Context

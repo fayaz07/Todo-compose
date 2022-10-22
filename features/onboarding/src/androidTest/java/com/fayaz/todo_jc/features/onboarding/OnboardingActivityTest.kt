@@ -21,12 +21,13 @@ import com.fayaz.todo_jc.utils.android_test.snapshot
 import com.fayaz.todo_jc.utils.android_test.useContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.delay
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(AndroidJUnit4::class)
+//@RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class OnboardingActivityTest {
 
@@ -111,6 +112,6 @@ class OnboardingActivityTest {
     }
     rule.onNodeWithText(useContext().getString(R.string.onboarding_launch_button))
       .assertIsNotEnabled()
-    rule.snapshot("OnboardingActivity.png")
+//    rule.snapshot("OnboardingActivity.png", useContext())
   }
 }

@@ -32,8 +32,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class OnboardingActivity : ComponentActivity() {
-  @Inject
-  lateinit var showDashboardActivity: ShowDashboardActivity
+//  @Inject
+//  lateinit var showDashboardActivity: ShowDashboardActivity
 
   @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,7 @@ class OnboardingActivity : ComponentActivity() {
             .fillMaxWidth()
             .padding(vertical = 16.dp),
           onClick = {
-            showDashboardActivity.show(this@OnboardingActivity)
+//            showDashboardActivity.show(this@OnboardingActivity)
           }) {
           Text(
             text = stringResource(R.string.onboarding_launch_button),
