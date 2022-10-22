@@ -11,6 +11,7 @@ import Versions.NAVIGATION
 import Versions.ACCOMPANIST
 import Versions.DAGGER
 import Versions.LEAK_CANARY
+import Versions.TEST_RUNNER
 import Versions.TIMBER
 
 object Dependencies {
@@ -51,10 +52,13 @@ object Dependencies {
     val expressoCore by lazy { "androidx.test.espresso:espresso-core:$EXPRESSO_CORE" }
     val composeJunit by lazy { "androidx.compose.ui:ui-test-junit4:$COMPOSE" }
     val composeManifest by lazy { "androidx.compose.ui:ui-test-manifest:$COMPOSE" }
+    val runner by lazy {"androidx.test:runner:$TEST_RUNNER"}
   }
 
   object DI {
     val dagger by lazy { "com.google.dagger:hilt-android:$DAGGER" }
     val daggerKapt by lazy { "com.google.dagger:hilt-compiler:$DAGGER" }
+    val hiltTest by lazy { "com.google.dagger:hilt-android-testing:$DAGGER" }
+    val hiltKaptTest by lazy { "com.google.dagger:hilt-android-compiler:$DAGGER" }
   }
 }

@@ -51,10 +51,14 @@ android {
 
 dependencies {
   implementation(project(Modules.core))
+//  androidTestImplementation(project(Modules.core))
   androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
+
+  androidTestImplementation(Dependencies.DI.hiltTest)
+  kaptAndroidTest(Dependencies.DI.hiltKaptTest)
 
   implementation(Dependencies.Google.Accompanist.pager)
   implementation(Dependencies.Google.Accompanist.pagerIndicators)

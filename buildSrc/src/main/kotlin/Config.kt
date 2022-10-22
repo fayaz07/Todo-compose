@@ -13,7 +13,8 @@ object Config {
   val javaSourceCompatability = JavaVersion.VERSION_1_8
   val javaTargetCompatability = JavaVersion.VERSION_1_8
 
-  const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//  const val testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  const val testInstrumentationRunner = "com.fayaz.todo_jc.TodoTestRunner"
 
   object detekt {
     const val configFilePath = "detekt.yml"

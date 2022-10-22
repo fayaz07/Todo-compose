@@ -58,6 +58,13 @@ dependencies {
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
+  androidTestImplementation(Dependencies.DI.hiltTest)
+  kaptAndroidTest(Dependencies.DI.hiltKaptTest)
+
+  implementation(Dependencies.DI.hiltTest)
+  kapt(Dependencies.DI.hiltKaptTest)
+
+  implementation(Dependencies.Test.runner)
 
   implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)
