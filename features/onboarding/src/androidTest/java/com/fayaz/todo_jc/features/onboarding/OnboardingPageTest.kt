@@ -13,11 +13,12 @@ import com.fayaz.todo_jc.design_kit.theme.AppTheme
 import com.fayaz.todo_jc.features.onboarding.data.OnboardingDataModel
 import com.fayaz.todo_jc.features.onboarding.ui.OnboardingPage
 import com.fayaz.todo_jc.utils.android_test.useContext
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Rule
 
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class OnboardingPageTest {
   @get:Rule
   val composeTestRule = createComposeRule()

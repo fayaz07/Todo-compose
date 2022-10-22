@@ -64,8 +64,6 @@ dependencies {
   implementation(Dependencies.DI.hiltTest)
   kapt(Dependencies.DI.hiltKaptTest)
 
-  implementation(Dependencies.Test.runner)
-
   implementation(Dependencies.AndroidX.splashScreen)
   implementation(Dependencies.AndroidX.core)
   implementation(Dependencies.AndroidX.lifecycleRuntime)
