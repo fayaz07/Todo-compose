@@ -42,7 +42,7 @@ fun OnboardingPage(item: OnboardingDataModel) {
     )
     Text(
       text = item.title,
-      style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Medium)
+      style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
         .color(MaterialTheme.colors.onBackground),
       textAlign = TextAlign.Center,
       maxLines = 1,
