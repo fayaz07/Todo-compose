@@ -32,8 +32,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class OnboardingActivity : ComponentActivity() {
-//  @Inject
-//  lateinit var showDashboardActivity: ShowDashboardActivity
+  @Inject
+  lateinit var showDashboardActivity: ShowDashboardActivity
 
   @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +45,11 @@ class OnboardingActivity : ComponentActivity() {
         }
       }
     }
+  }
+
+  private fun navigateToDashboardScreen() {
+    showDashboardActivity.show(this)
+    finish()
   }
 
   @OptIn(ExperimentalPagerApi::class)
@@ -64,14 +69,14 @@ class OnboardingActivity : ComponentActivity() {
       ) {
         HorizontalPagerIndicator(pagerState = pagerState, modifier = Modifier)
         Button(
-          enabled = pagerState.currentPage == onboardingData.size - 1 && !pagerState.isScrollInProgress,
+          enabled = pagerState.currentPage == onboardingData.size - 1
+              && !pagerState.isScrollInProgress,
           shape = RoundedCornerShape(64.dp),
           modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
-          onClick = {
-//            showDashboardActivity.show(this@OnboardingActivity)
-          }) {
+          onClick = { navigateToDashboardScreen() }
+        ) {
           Text(
             text = stringResource(R.string.onboarding_launch_button),
             modifier = Modifier.padding(4.dp),

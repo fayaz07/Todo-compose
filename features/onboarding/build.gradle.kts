@@ -51,7 +51,6 @@ android {
 
 dependencies {
   implementation(project(Modules.core))
-//  androidTestImplementation(project(Modules.core))
   androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.DI.dagger)
