@@ -12,6 +12,11 @@ object Modules {
     const val dashboard = feature + ":dashboard"
   }
 
+  object data {
+    private const val data = ":data"
+    const val prefs = data + ":prefs"
+  }
+
   object namespaces {
     const val appId = "com.fayaz.todo_jc"
     const val designKit = "com.fayaz.todo_jc.design_kit"
@@ -19,5 +24,6 @@ object Modules {
     const val utilsAndroidTest = "com.fayaz.todo_jc.utils.android_test"
     const val core = "com.fayaz.todo_jc.core"
     const val dashboard = "com.fayaz.todo_jc.features.dashboard"
+    const val prefs = "com.fayaz.todo_jc.data.prefs"
   }
 }

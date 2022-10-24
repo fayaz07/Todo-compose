@@ -19,4 +19,5 @@ object Versions {
   const val LEAK_CANARY = "2.9.1"
 
   const val DAGGER = "2.44"
+  const val DATASTORE = "1.0.0"
 }

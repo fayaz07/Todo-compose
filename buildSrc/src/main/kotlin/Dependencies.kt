@@ -10,6 +10,7 @@ import Versions.EXPRESSO_CORE
 import Versions.NAVIGATION
 import Versions.ACCOMPANIST
 import Versions.DAGGER
+import Versions.DATASTORE
 import Versions.LEAK_CANARY
 import Versions.TEST_RUNNER
 import Versions.TIMBER
@@ -35,6 +36,7 @@ object Dependencies {
     val core by lazy { "androidx.core:core-ktx:$ANDROIDX_CORE" }
     val lifecycleRuntime by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_RUNTIME" }
     val appCompat by lazy { "androidx.appcompat:appcompat:$APP_COMPAT" }
+    val datastore by lazy { "androidx.datastore:datastore-preferences:$DATASTORE" }
   }
 
   object Compose {
