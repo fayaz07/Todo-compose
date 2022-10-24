@@ -24,16 +24,6 @@ class MainActivity : ComponentActivity() {
     }
 
     showOnboardingActivity.show(this)
-
-//    setContent {
-//      AppTheme {
-//        Box(
-//          modifier = Modifier.fillMaxSize(),
-//          contentAlignment = Alignment.Center
-//        ) {
-//          Text(text = "Bonjour Elliot", style = MaterialTheme.typography.h4)
-//        }
-//      }
-//    }
+    finish()
   }
 }
