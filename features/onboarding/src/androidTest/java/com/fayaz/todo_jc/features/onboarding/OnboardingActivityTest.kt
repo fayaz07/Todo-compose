@@ -1,6 +1,5 @@
 package com.fayaz.todo_jc.features.onboarding
 
-import android.app.Activity
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
@@ -13,7 +12,6 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
-import com.fayaz.todo_jc.core.actions.ShowOnboardingActivity
 import com.fayaz.todo_jc.features.onboarding.data.onboardingData
 import com.fayaz.todo_jc.features.onboarding.ui.OnboardingActivity
 import com.fayaz.todo_jc.utils.android_test.useContext
@@ -39,11 +37,6 @@ class OnboardingActivityTest {
 
   @Test
   fun should_display_data() {
-    object : ShowOnboardingActivity {
-      override fun show(activity: Activity) {
-
-      }
-    }
     val pageData = onboardingData[0]
     rule.onAllNodesWithText(pageData.title)[0].assertIsDisplayed()
     rule.onAllNodesWithText(pageData.description)[0].assertIsDisplayed()

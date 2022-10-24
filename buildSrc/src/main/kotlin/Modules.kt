@@ -1,6 +1,7 @@
 object Modules {
   const val designKit = ":design-kit"
   const val core = ":core"
+  const val domain = ":domain"
 
   object utils {
     private const val utils = ":utils"

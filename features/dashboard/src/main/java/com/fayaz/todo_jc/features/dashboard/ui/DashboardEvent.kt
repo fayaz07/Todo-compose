@@ -1,6 +1,6 @@
 package com.fayaz.todo_jc.features.dashboard.ui
 
-import com.fayaz.todo_jc.core.base.ViewEvent
+import com.fayaz.todo_jc.core.base.vm.ViewEvent
 
 sealed class DashboardEvent : ViewEvent() {
   object Submit : DashboardEvent()

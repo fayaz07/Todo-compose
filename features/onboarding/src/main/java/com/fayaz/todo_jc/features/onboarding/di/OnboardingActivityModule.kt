@@ -1,6 +1,6 @@
 package com.fayaz.todo_jc.features.onboarding.di
 
-import com.fayaz.todo_jc.core.actions.ShowOnboardingActivity
+import com.fayaz.todo_jc.domain.actions.activity.ShowOnboardingActivity
 import com.fayaz.todo_jc.features.onboarding.actions.ShowOnboardingActivityImpl
 import dagger.Module
 import dagger.Provides

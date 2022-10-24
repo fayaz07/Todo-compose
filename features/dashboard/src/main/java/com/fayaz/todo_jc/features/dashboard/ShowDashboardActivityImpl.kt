@@ -2,7 +2,7 @@ package com.fayaz.todo_jc.features.dashboard
 
 import android.app.Activity
 import android.content.Intent
-import com.fayaz.todo_jc.core.actions.ShowDashboardActivity
+import com.fayaz.todo_jc.domain.actions.activity.ShowDashboardActivity
 import com.fayaz.todo_jc.features.dashboard.ui.DashboardActivity
 import javax.inject.Inject
 

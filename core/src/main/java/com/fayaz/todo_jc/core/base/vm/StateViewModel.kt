@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.core.base
+package com.fayaz.todo_jc.core.base.vm
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

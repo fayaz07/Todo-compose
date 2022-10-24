@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fayaz.todo_jc.core.actions.ShowDashboardActivity
 import com.fayaz.todo_jc.design_kit.theme.AppTheme
+import com.fayaz.todo_jc.domain.actions.activity.ShowDashboardActivity
 import com.fayaz.todo_jc.features.onboarding.R
 import com.fayaz.todo_jc.features.onboarding.data.onboardingData
 import com.google.accompanist.pager.ExperimentalPagerApi

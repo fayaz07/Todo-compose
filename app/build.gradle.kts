@@ -53,6 +53,7 @@ android {
 dependencies {
   implementation(project(Modules.designKit))
   implementation(project(Modules.core))
+  implementation(project(Modules.domain))
   implementation(project(Modules.feature.onboarding))
   implementation(project(Modules.feature.dashboard))
 

@@ -3,11 +3,12 @@ import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-  id(Plugins.androidApplication) version PluginVersions.androidApplication apply false
-  id(Plugins.androidLibrary) version PluginVersions.androidApplication apply false
-  id(Plugins.kotlinAndroid) version PluginVersions.kotlinAndroid apply false
+  id(Plugins.androidApplication) version PluginVersions.agp apply false
+  id(Plugins.androidLibrary) version PluginVersions.agp apply false
+  id(Plugins.kotlinAndroid) version PluginVersions.kotlin apply false
   id(Plugins.detekt) version PluginVersions.detekt apply true
   id(Plugins.dagger) version PluginVersions.dagger apply false
+  id(Plugins.kotlinJvm) version PluginVersions.kotlin apply false
 }
 
 tasks.register<Delete>(Tasks.CLEANUP).configure {
