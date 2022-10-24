@@ -45,6 +45,7 @@ dependencies {
   implementation(Dependencies.Compose.toolingPreview)
   implementation(Dependencies.Compose.material)
   implementation(Dependencies.Compose.ui)
+  debugImplementation(Dependencies.Compose.uiTooling)
 
   testImplementation(Dependencies.Test.junit)
   androidTestImplementation(Dependencies.Test.androidxJUnit)
