@@ -1,26 +1,43 @@
 package com.fayaz.todo_jc.main
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import com.fayaz.todo_jc.core.base.vm.StateViewModel
+import com.fayaz.todo_jc.data.usecase.CheckLoggedInUseCase
+import com.fayaz.todo_jc.main.MainActivityEvent.LoginCheckComplete
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-const val SLIGHT_DELAY = 3000L
+@HiltViewModel
+class MainViewModel @Inject constructor(
+  private val checkLoginUseCase: CheckLoggedInUseCase
+) : StateViewModel<MainActivityEvent, MainActivityState>() {
 
-class MainViewModel: ViewModel() {
   private val _isLoading = MutableStateFlow(true)
   val isLoading = _isLoading.asStateFlow()
 
-  init {
-    checkLogin()
+  override fun setInitialState(): MainActivityState {
+    return MainActivityState(userLoggedIn = false)
   }
 
   private fun checkLogin() {
+    Log.d("ttt",  " checking login ")
     viewModelScope.launch {
-      delay(SLIGHT_DELAY)
+      val loggedIn = checkLoginUseCase.once()
+      updateState { copy(userLoggedIn = loggedIn) }
       _isLoading.emit(false)
+      viewEvents.emit(LoginCheckComplete)
+      Log.d("ttt",  " login check complete ${viewState.value}")
+    }
+  }
+
+  override fun dispatcher(event: MainActivityEvent) {
+    when (event) {
+      MainActivityEvent.CheckUserLoginStatus -> checkLogin()
+      else -> {}
     }
   }
 }

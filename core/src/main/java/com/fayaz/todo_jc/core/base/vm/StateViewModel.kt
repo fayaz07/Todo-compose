@@ -1,6 +1,7 @@
 package com.fayaz.todo_jc.core.base.vm
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -10,6 +11,8 @@ abstract class StateViewModel<UiEvent: ViewEvent, UiState: ViewState>: ViewModel
 
   private val _uiState = MutableStateFlow(initialState)
   val viewState = _uiState.asStateFlow()
+
+  val viewEvents = MutableSharedFlow<UiEvent>()
 
   abstract fun dispatcher(event: UiEvent)
 

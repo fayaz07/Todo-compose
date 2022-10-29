@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.data.repository
+package com.fayaz.todo_jc.data.repository.prefs
 
 import com.fayaz.todo_jc.data.prefs.AppDataStore
 import com.fayaz.todo_jc.domain.data.prefs.PrefsRepo

@@ -12,8 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class AppDataStore @Inject constructor(
-  private val dataStore: DataStore<Preferences>,
-  @Named(PrefConstants.scope) private val scope: CoroutineScope
+  private val dataStore: DataStore<Preferences>
 ) {
   suspend fun updateLogin(loggedIn: Boolean) {
     dataStore.edit {

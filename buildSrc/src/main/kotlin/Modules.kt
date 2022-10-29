@@ -18,6 +18,7 @@ object Modules {
     private const val data = ":data"
     const val prefs = data + ":prefs"
     const val repository = data + ":repository"
+    const val usecase = data + ":usecase"
   }
 
   object namespaces {
