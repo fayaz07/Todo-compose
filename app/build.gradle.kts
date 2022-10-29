@@ -55,8 +55,10 @@ dependencies {
   implementation(project(Modules.core))
   implementation(project(Modules.domain))
   implementation(project(Modules.data.prefs))
+  implementation(project(Modules.data.repository))
   implementation(project(Modules.feature.onboarding))
   implementation(project(Modules.feature.dashboard))
+  androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)

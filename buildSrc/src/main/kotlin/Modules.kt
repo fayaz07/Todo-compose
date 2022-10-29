@@ -30,5 +30,6 @@ object Modules {
     const val prefs = "com.fayaz.todo_jc.data.prefs"
     const val repository = "com.fayaz.todo_jc.data.repository"
     const val domain = "com.fayaz.todo_jc.domain"
+    const val usecase = "com.fayaz.todo_jc.data.usecase"
   }
 }
