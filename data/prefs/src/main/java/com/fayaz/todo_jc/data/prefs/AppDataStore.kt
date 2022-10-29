@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import java.util.stream.Collectors
 import javax.inject.Inject
 import javax.inject.Named
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.toCollection
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 class AppDataStore @Inject constructor(
   private val dataStore: DataStore<Preferences>,
@@ -22,8 +21,12 @@ class AppDataStore @Inject constructor(
     }
   }
 
-  suspend fun isLoggedIn(): Boolean {
-    return dataStore.data.single()[PrefConstants.loggedIn] ?: false
+  fun isLoggedIn(): Flow<Boolean> {
+    return flow {
+      dataStore.data.map {
+        it[PrefConstants.loggedIn] ?: false
+      }
+    }
   }
 
   suspend fun clear() {
