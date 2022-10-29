@@ -1,10 +1,12 @@
 plugins {
   id(Plugins.androidLibrary)
   id(Plugins.kotlinAndroid)
+  id(Plugins.dagger)
+  kotlin(Plugins.kapt)
 }
 
 android {
-  namespace = "com.fayaz.todo_jc.domain"
+  namespace = Modules.namespaces.domain
   compileSdk = Config.compileSdk
 
   defaultConfig {
@@ -37,6 +39,8 @@ android {
 }
 
 dependencies {
-  implementation("androidx.core:core-ktx:1.7.0")
-  implementation("androidx.appcompat:appcompat:1.5.1")
+  implementation(Dependencies.AndroidX.core)
+
+  implementation(Dependencies.DI.dagger)
+  kapt(Dependencies.DI.daggerKapt)
 }
