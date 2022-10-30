@@ -1,17 +1,17 @@
-import Versions.COMPOSE
-import Versions.SPLASH_SCREEN
-import Versions.ANDROIDX_CORE
-import Versions.LIFECYCLE_RUNTIME
+import Versions.ACCOMPANIST
 import Versions.ACTIVITY_COMPOSE
-import Versions.JUNIT
+import Versions.ANDROIDX_CORE
 import Versions.ANDROIDX_JUNIT
 import Versions.APP_COMPAT
-import Versions.EXPRESSO_CORE
-import Versions.NAVIGATION
-import Versions.ACCOMPANIST
+import Versions.COMPOSE
 import Versions.DAGGER
 import Versions.DATASTORE
+import Versions.EXPRESSO_CORE
+import Versions.JUNIT
 import Versions.LEAK_CANARY
+import Versions.LIFECYCLE_RUNTIME
+import Versions.NAVIGATION
+import Versions.SPLASH_SCREEN
 import Versions.TEST_RUNNER
 import Versions.TIMBER
 
@@ -37,6 +37,7 @@ object Dependencies {
     val lifecycleRuntime by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:$LIFECYCLE_RUNTIME" }
     val appCompat by lazy { "androidx.appcompat:appcompat:$APP_COMPAT" }
     val datastore by lazy { "androidx.datastore:datastore-preferences:$DATASTORE" }
+    val datastoreCore by lazy { "androidx.datastore:datastore-preferences-core:$DATASTORE" }
   }
 
   object Compose {

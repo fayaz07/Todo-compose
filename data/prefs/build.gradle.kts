@@ -37,6 +37,7 @@ android {
 
 dependencies {
   implementation(Dependencies.AndroidX.datastore)
+  implementation(Dependencies.AndroidX.datastoreCore)
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)

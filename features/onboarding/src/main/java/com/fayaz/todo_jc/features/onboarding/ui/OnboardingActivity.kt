@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,8 @@ class OnboardingActivity : ComponentActivity() {
   @Inject
   lateinit var showDashboardActivity: ShowDashboardActivity
 
+  private val viewModel: OnboardingViewModel by viewModels()
+
   @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -44,6 +47,10 @@ class OnboardingActivity : ComponentActivity() {
           Content()
         }
       }
+    }
+
+    viewModel.ld.observe(this) {
+      navigateToDashboardScreen()
     }
   }
 
@@ -75,7 +82,7 @@ class OnboardingActivity : ComponentActivity() {
           modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp),
-          onClick = { navigateToDashboardScreen() }
+          onClick = { viewModel.loggedIn() }
         ) {
           Text(
             text = stringResource(R.string.onboarding_launch_button),

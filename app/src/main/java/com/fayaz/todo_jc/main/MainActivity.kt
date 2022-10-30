@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.fayaz.todo_jc.domain.actions.activity.ShowDashboardActivity
 import com.fayaz.todo_jc.domain.actions.activity.ShowOnboardingActivity
-import com.fayaz.todo_jc.main.MainActivityEvent.CheckUserLoginStatus
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,19 +21,28 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    viewModel.dispatcher(CheckUserLoginStatus)
-
     installSplashScreen().apply {
       setKeepOnScreenCondition {
-        viewModel.isLoading.value
+        viewModel.loading.value
       }
     }
 
-    if (viewModel.viewState.value.userLoggedIn) {
-      showDashboardActivity.show(this)
-    } else {
-      showOnboardingActivity.show(this)
+    listenToEvents()
+    viewModel.checkLogin()
+  }
+
+  private fun listenToEvents() {
+    viewModel.state.observe(this) {
+      when (it) {
+        is MainActivityEvent.LoginCheckComplete -> {
+          if (it.loggedIn) {
+            showDashboardActivity.show(this)
+          } else {
+            showOnboardingActivity.show(this)
+          }
+          finish()
+        }
+      }
     }
-    finish()
   }
 }
