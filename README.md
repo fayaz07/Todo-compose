@@ -5,6 +5,11 @@
   <a href="https://github.com/fayaz07/Todo-compose/actions/workflows/ui_tests.yml"><img src="https://github.com/fayaz07/Todo-compose/actions/workflows/ui_tests.yml/badge.svg" alt="uiTests"></a>
 </div>
 
+## Run UI Tests
+```bash
+./gradlew connectedAndroidTest
+```
+
 ## Screenshots
 
 <img src="screenshots/onboarding_1.png" height="30%" width="30%" /> <img src="screenshots/onboarding_2.png" height="30%" width="30%" />  <img src="screenshots/onboarding_3.png" height="30%" width="30%" /> 

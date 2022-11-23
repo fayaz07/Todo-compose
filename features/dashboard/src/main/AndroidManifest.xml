@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".ui.DashboardActivity"
+            android:name=".ui.activity.DashboardActivity"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Todojc"

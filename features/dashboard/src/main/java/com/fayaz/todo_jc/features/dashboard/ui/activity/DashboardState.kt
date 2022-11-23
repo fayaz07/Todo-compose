@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.dashboard.ui
+package com.fayaz.todo_jc.features.dashboard.ui.activity
 
 import com.fayaz.todo_jc.core.base.vm.ViewState
 
