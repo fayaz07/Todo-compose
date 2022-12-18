@@ -9,4 +9,5 @@ sealed class AddTodoScreenEvent : ViewEvent() {
   data class RecurringChanged(val recurring: Boolean) : AddTodoScreenEvent()
   data class FrequencyDropDownExpanded(val expanded: Boolean) : AddTodoScreenEvent()
   data class FrequencyChanged(val frequency: EventFrequencyEnum) : AddTodoScreenEvent()
+  data class TimePicked(val hour: Int, val minute: Int): AddTodoScreenEvent()
 }

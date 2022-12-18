@@ -21,7 +21,8 @@ class AddTodoScreenViewModel @Inject constructor() :
       description = "",
       recurring = false,
       frequencyDropDownExpanded = false,
-      selectedFrequency = EventFrequencyEnum.Daily
+      selectedFrequency = EventFrequencyEnum.Daily,
+      hour = 0, minute = 0
     )
   }
 
@@ -57,6 +58,15 @@ class AddTodoScreenViewModel @Inject constructor() :
         updateState {
           copy(
             selectedFrequency = event.frequency
+          )
+        }
+      }
+
+      is AddTodoScreenEvent.TimePicked -> {
+        updateState {
+          copy(
+            hour = event.hour,
+            minute = event.minute
           )
         }
       }

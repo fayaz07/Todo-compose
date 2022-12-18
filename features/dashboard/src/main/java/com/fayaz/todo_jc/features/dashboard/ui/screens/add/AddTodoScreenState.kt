@@ -8,5 +8,7 @@ data class AddTodoScreenState(
   val description: String,
   val recurring: Boolean,
   val frequencyDropDownExpanded: Boolean,
-  val selectedFrequency: EventFrequencyEnum
+  val selectedFrequency: EventFrequencyEnum,
+  val hour: Int,
+  val minute: Int
 ) : ViewState()

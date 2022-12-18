@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.Space
+import com.fayaz.todo_jc.design_kit.composables.TimePicker
 import com.fayaz.todo_jc.design_kit.theme.Spacing16
 import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
@@ -51,7 +52,8 @@ private fun Preview() {
       loading = false, title = "", description = "",
       recurring = false,
       frequencyDropDownExpanded = false,
-      selectedFrequency = EventFrequencyEnum.Daily
+      selectedFrequency = EventFrequencyEnum.Daily,
+      hour = 0, minute = 0
     )
   ) {}
 }
@@ -108,8 +110,17 @@ private fun Body(
     Space(Spacing4)
     RecursiveToggle(state, actor, keyboardController, focusManager)
     AnimatedVisibility(visible = state.recurring) {
-      FrequencyDropDown(state, actor, keyboardController, focusManager)
+      FrequencyDropDown(
+        state,
+        actor,
+        keyboardController,
+        focusManager
+      )
     }
+    AnimatedVisibility(visible = state.recurring) {
+      EventFrequencyField(state.selectedFrequency)
+    }
+    TimeField(state, actor)
   }
 }
 
@@ -242,5 +253,23 @@ private fun FrequencyDropDown(
         }
       }
     }
+  }
+}
+
+@Composable
+private fun EventFrequencyField(selectedFrequency: EventFrequencyEnum) {
+  when (selectedFrequency) {
+    EventFrequencyEnum.Daily -> {}
+    EventFrequencyEnum.Weekly -> {}
+    EventFrequencyEnum.SpecificDays -> {}
+    EventFrequencyEnum.Monthly -> {}
+    EventFrequencyEnum.Yearly -> {}
+  }
+}
+
+@Composable
+private fun TimeField(state: AddTodoScreenState, actor: (event: AddTodoScreenEvent) -> Unit) {
+  TimePicker(label = "At", value = "${state.hour}:${state.minute}") { h, m ->
+    actor(AddTodoScreenEvent.TimePicked(h, m))
   }
 }
