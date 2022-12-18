@@ -18,6 +18,7 @@ object Versions {
   const val TIMBER = "5.0.1"
   const val LEAK_CANARY = "2.9.1"
 
+  const val HILT_NAVIGATION_COMPOSE = "1.1.0-alpha01"
   const val DAGGER = "2.44"
   const val DATASTORE = "1.0.0"
 }

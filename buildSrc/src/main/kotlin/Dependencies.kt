@@ -7,6 +7,7 @@ import Versions.COMPOSE
 import Versions.DAGGER
 import Versions.DATASTORE
 import Versions.EXPRESSO_CORE
+import Versions.HILT_NAVIGATION_COMPOSE
 import Versions.JUNIT
 import Versions.LEAK_CANARY
 import Versions.LIFECYCLE_RUNTIME
@@ -59,6 +60,7 @@ object Dependencies {
   }
 
   object DI {
+    val navigationCompose by lazy { "androidx.hilt:hilt-navigation-compose:$HILT_NAVIGATION_COMPOSE" }
     val dagger by lazy { "com.google.dagger:hilt-android:$DAGGER" }
     val daggerKapt by lazy { "com.google.dagger:hilt-compiler:$DAGGER" }
     val hiltTest by lazy { "com.google.dagger:hilt-android-testing:$DAGGER" }

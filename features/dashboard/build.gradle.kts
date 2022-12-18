@@ -56,6 +56,7 @@ dependencies {
   androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.DI.dagger)
+  implementation(Dependencies.DI.navigationCompose)
   kapt(Dependencies.DI.daggerKapt)
 
   androidTestImplementation(Dependencies.DI.hiltTest)

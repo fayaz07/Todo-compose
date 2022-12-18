@@ -1,6 +1,5 @@
 package com.fayaz.todo_jc.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import com.fayaz.todo_jc.data.usecase.CheckLoggedInUseCase
 import com.fayaz.todo_jc.main.MainActivityEvent.LoginCheckComplete
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -26,9 +24,7 @@ class MainViewModel @Inject constructor(
   val state: LiveData<MainActivityEvent> = _state
 
   fun checkLogin() {
-    Log.d("ttt", " checking login ")
     viewModelScope.launch {
-      delay(3000)
       val loggedIn = checkLoginUseCase.once()
       _isLoading.emit(false)
       _state.postValue(LoginCheckComplete(loggedIn))
