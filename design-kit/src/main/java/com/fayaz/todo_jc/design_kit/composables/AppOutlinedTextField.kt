@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -29,11 +28,11 @@ import com.fayaz.todo_jc.design_kit.theme.color
 
 @Composable
 fun AppOutlinedTextField(
+  modifier: Modifier = Modifier,
   title: String,
-  hint: String,
+  hint: String = "",
   value: String,
   onValueChange: (String) -> Unit,
-  modifier: Modifier = Modifier,
   enabled: Boolean = true,
   readOnly: Boolean = false,
   textStyle: TextStyle = TodoAppTypography.subtitle1,

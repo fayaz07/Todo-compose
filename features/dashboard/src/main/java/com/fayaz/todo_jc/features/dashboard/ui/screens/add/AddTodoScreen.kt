@@ -1,14 +1,20 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -16,18 +22,38 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.Space
 import com.fayaz.todo_jc.design_kit.theme.Spacing16
 import com.fayaz.todo_jc.design_kit.theme.Spacing24
+import com.fayaz.todo_jc.design_kit.theme.Spacing4
+import com.fayaz.todo_jc.design_kit.theme.Spacing8
+import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
 
 @Composable
 @Preview
 private fun Preview() {
-  Content(AddTodoScreenState(false, "", "")) {}
+  Content(
+    AddTodoScreenState(
+      loading = false, title = "", description = "",
+      recurring = false,
+      frequencyDropDownExpanded = false,
+      selectedFrequency = EventFrequencyEnum.Daily
+    )
+  ) {}
 }
 
 @Composable
@@ -39,11 +65,13 @@ fun AddTodoScreen() {
   Content(state, actor)
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Content(
   state: AddTodoScreenState,
-  actor: (event: AddTodoScreenEvent) -> Unit
+  actor: (event: AddTodoScreenEvent) -> Unit,
 ) {
+  val keyboardController = LocalSoftwareKeyboardController.current
   Scaffold(
     topBar = {
       TopAppBar(
@@ -56,24 +84,32 @@ private fun Content(
       )
     }
   ) {
-    Body(it, state, actor)
+    Body(it, state, actor, keyboardController)
   }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Body(
   paddingValues: PaddingValues,
   state: AddTodoScreenState,
-  actor: (event: AddTodoScreenEvent) -> Unit
+  actor: (event: AddTodoScreenEvent) -> Unit,
+  keyboardController: SoftwareKeyboardController?
 ) {
+  val focusManager = LocalFocusManager.current
   Column(
     modifier = Modifier
       .padding(paddingValues)
       .padding(top = Spacing24)
   ) {
     TitleTextField(state, actor)
-    Space(Spacing16)
+    Space(Spacing8)
     DescriptionTextField(state, actor)
+    Space(Spacing4)
+    RecursiveToggle(state, actor, keyboardController, focusManager)
+    AnimatedVisibility(visible = state.recurring) {
+      FrequencyDropDown(state, actor, keyboardController, focusManager)
+    }
   }
 }
 
@@ -123,4 +159,88 @@ private fun DescriptionTextField(
       }
     }
   )
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun RecursiveToggle(
+  state: AddTodoScreenState,
+  actor: (event: AddTodoScreenEvent) -> Unit,
+  keyboardController: SoftwareKeyboardController?,
+  focusManager: FocusManager,
+) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(horizontal = Spacing16),
+    horizontalArrangement = Arrangement.SpaceBetween,
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Text(
+      text = "Recurring",
+      style = TodoAppTypography.body1.copy(fontWeight = FontWeight.Medium)
+    )
+    Switch(
+      checked = state.recurring,
+      onCheckedChange = {
+        focusManager.clearFocus()
+        keyboardController?.hide()
+        actor(AddTodoScreenEvent.RecurringChanged(it))
+      }
+    )
+  }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun FrequencyDropDown(
+  state: AddTodoScreenState,
+  actor: (event: AddTodoScreenEvent) -> Unit,
+  keyboardController: SoftwareKeyboardController?,
+  focusManager: FocusManager
+) {
+  val items = EventFrequencyEnum.values()
+  val dropDownMenuWidth = (LocalConfiguration.current.screenWidthDp - 32).dp
+
+  Column {
+    AppOutlinedTextField(
+      modifier = Modifier
+        .onFocusChanged {
+          if (it.hasFocus || it.isFocused) {
+            keyboardController?.hide()
+            actor(AddTodoScreenEvent.FrequencyDropDownExpanded(true))
+          }
+        },
+      title = "Frequency",
+      hint = "",
+      value = state.selectedFrequency.display,
+      onValueChange = {},
+      readOnly = true,
+    )
+    Box(
+      modifier = Modifier.padding(horizontal = Spacing16)
+    ) {
+      DropdownMenu(
+        modifier = Modifier.width(dropDownMenuWidth),
+        expanded = state.frequencyDropDownExpanded,
+        onDismissRequest = {
+          keyboardController?.hide()
+          focusManager.clearFocus()
+          actor(AddTodoScreenEvent.FrequencyDropDownExpanded(false))
+        },
+      ) {
+        items.forEachIndexed { _, s ->
+          DropdownMenuItem(
+            onClick = {
+              actor(AddTodoScreenEvent.FrequencyChanged(s))
+              actor(AddTodoScreenEvent.FrequencyDropDownExpanded(false))
+              focusManager.clearFocus()
+            }
+          ) {
+            Text(text = s.display)
+          }
+        }
+      }
+    }
+  }
 }
