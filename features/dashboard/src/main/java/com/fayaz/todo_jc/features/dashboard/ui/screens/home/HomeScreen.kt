@@ -8,6 +8,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,18 +18,34 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 @Preview
 private fun Preview() {
-  HomeContent(HomeScreenViewModel(), {})
+  HomeContent {}
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navToAddTodoScreen: () -> Unit) {
   val viewModel: HomeScreenViewModel = hiltViewModel()
   val actor = viewModel::dispatcher
-  HomeContent(viewModel, actor)
+
+  ListenToEvents(viewModel, navToAddTodoScreen)
+
+  HomeContent(actor)
 }
 
 @Composable
-private fun HomeContent(viewModel: HomeScreenViewModel, actor: (event: HomeScreenEvent) -> Unit) {
+private fun ListenToEvents(viewModel: HomeScreenViewModel, navToAddTodoScreen: () -> Unit) {
+  LaunchedEffect(Unit) {
+    viewModel.viewEvents.collect {
+      when (it) {
+        HomeScreenEvent.AddTodo -> {
+          navToAddTodoScreen()
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun HomeContent(actor: (event: HomeScreenEvent) -> Unit) {
   Scaffold(
     floatingActionButton = {
       FloatingActionButton(onClick = {
@@ -36,7 +53,7 @@ private fun HomeContent(viewModel: HomeScreenViewModel, actor: (event: HomeScree
       }) {
         Icon(
           imageVector = Icons.Default.Add,
-          contentDescription = "Icon",
+          contentDescription = "Add todo icon",
           tint = Color.White
         )
       }

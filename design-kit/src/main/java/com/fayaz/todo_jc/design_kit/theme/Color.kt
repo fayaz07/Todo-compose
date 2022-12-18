@@ -12,3 +12,6 @@ val Green800Light = Color(0xFF60ad5e)
 val Green800Dark = Color(0xFF005005)
 
 val TextColorLight = Color.White
+
+val ErrorColor = Color(0xffBA1A1A)
+val HintColor = Color(0xff001847)

@@ -1,8 +1,10 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.home
 
+import androidx.lifecycle.viewModelScope
 import com.fayaz.todo_jc.core.base.vm.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor() :
@@ -16,7 +18,11 @@ class HomeScreenViewModel @Inject constructor() :
 
   override fun dispatcher(event: HomeScreenEvent) {
     when (event) {
-      HomeScreenEvent.AddTodo -> {}
+      HomeScreenEvent.AddTodo -> {
+        viewModelScope.launch {
+          viewEvents.emit(event)
+        }
+      }
     }
   }
 }
