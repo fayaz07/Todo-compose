@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.dashboard.ui.home
+package com.fayaz.todo_jc.features.dashboard.ui.screens.home
 
 import com.fayaz.todo_jc.core.base.vm.StateViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

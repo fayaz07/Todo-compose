@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import com.fayaz.todo_jc.features.dashboard.ui.home.HomeScreen
+import com.fayaz.todo_jc.features.dashboard.ui.screens.home.HomeScreen
 
 @Composable
 fun DashboardNavHost(navController: NavHostController) {

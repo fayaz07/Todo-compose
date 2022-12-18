@@ -1,4 +1,4 @@
-package com.fayaz.todo_jc.features.dashboard.ui.home
+package com.fayaz.todo_jc.features.dashboard.ui.screens.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
