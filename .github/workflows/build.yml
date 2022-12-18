@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          ./gradlew build
+          ./gradlew build -x detekt
