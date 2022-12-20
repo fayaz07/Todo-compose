@@ -6,6 +6,7 @@ object Modules {
   object utils {
     private const val utils = ":utils"
     const val androidTest = utils + ":android-test"
+    const val core = utils + ":core"
   }
 
   object feature {
@@ -25,6 +26,7 @@ object Modules {
     const val appId = "com.fayaz.todo_jc"
     const val designKit = "com.fayaz.todo_jc.design_kit"
     const val featureOnboarding = "com.fayaz.todo_jc.features.onboarding"
+    const val utilsCore = "dev.mohammadfayaz.todojc.utils.core"
     const val utilsAndroidTest = "com.fayaz.todo_jc.utils.android_test"
     const val core = "com.fayaz.todo_jc.core"
     const val dashboard = "com.fayaz.todo_jc.features.dashboard"

@@ -48,7 +48,9 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
+import com.fayaz.todo_jc.features.dashboard.utils.Month
 import com.google.accompanist.flowlayout.FlowRow
+import dev.mohammadfayaz.todojc.utils.core.sentence
 import java.time.DayOfWeek
 
 @Composable
@@ -58,10 +60,9 @@ private fun Preview() {
     AddTodoScreenState(
       loading = false, title = "", description = "",
       recurring = false,
-      frequencyDropDownExpanded = false,
       selectedFrequency = EventFrequencyEnum.Daily,
       hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
-      dayDropDownExpanded = false, selectedDayOfMonth = 1
+      selectedDayOfMonth = 1, selectedMonth = Month.JANUARY
     )
   ) {}
 }
@@ -224,12 +225,14 @@ private fun FrequencyDropDown(
     label = "Frequency",
     value = state.selectedFrequency.display,
     items = items,
+    height = 250.dp,
     display = { it.display },
     onSelected = {
       actor(AddTodoScreenEvent.FrequencyChanged(it))
       focusManager.clearFocus()
     },
-    onExpanded = { keyboardController?.hide() }) {
+    onExpanded = { keyboardController?.hide() }
+  ) {
     keyboardController?.hide()
     focusManager.clearFocus()
   }
@@ -266,12 +269,10 @@ private fun EventFrequencyField(
       // On any one day
       PickDaysOfWeek(state.selectedDaysOfWeek, actor)
     }
-
     EventFrequencyEnum.SpecificDays -> {
       // on few days of week
       PickDaysOfWeek(state.selectedDaysOfWeek, actor)
     }
-
     EventFrequencyEnum.Monthly -> {
       // pick one day from (1 to 29)
       DaysDropDown(
@@ -281,9 +282,17 @@ private fun EventFrequencyField(
         focusManager
       )
     }
-
     EventFrequencyEnum.Yearly -> {
       // pick month and day
+      Column {
+        MonthsDropDown(state, actor, keyboardController, focusManager)
+        DaysDropDown(
+          state,
+          actor,
+          keyboardController,
+          focusManager
+        )
+      }
     }
   }
 }
@@ -421,6 +430,34 @@ private fun DaysDropDown(
     display = { e -> e.toString() },
     onSelected = {
       actor(AddTodoScreenEvent.SelectedDayOfMonth(it))
+      focusManager.clearFocus()
+    },
+    onExpanded = {
+      keyboardController?.hide()
+    }
+  ) {
+    keyboardController?.hide()
+    focusManager.clearFocus()
+  }
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun MonthsDropDown(
+  state: AddTodoScreenState,
+  actor: (event: AddTodoScreenEvent) -> Unit,
+  keyboardController: SoftwareKeyboardController?,
+  focusManager: FocusManager
+) {
+  val days = Month.values().toList()
+
+  AppDropDownList(
+    label = "Of",
+    value = state.selectedMonth.toString().sentence(),
+    items = days,
+    display = { e -> e.name.sentence() },
+    onSelected = {
+      actor(AddTodoScreenEvent.SelectedMonth(it))
       focusManager.clearFocus()
     },
     onExpanded = {

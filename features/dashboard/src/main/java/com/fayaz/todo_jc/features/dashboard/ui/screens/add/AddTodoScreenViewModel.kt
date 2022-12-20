@@ -1,16 +1,15 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
-import androidx.lifecycle.viewModelScope
 import com.fayaz.todo_jc.core.base.vm.StateViewModel
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.AddTodo
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.DescriptionChanged
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.FrequencyChanged
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.RecurringChanged
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.TitleChanged
+import com.fayaz.todo_jc.features.dashboard.utils.Month
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.DayOfWeek
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AddTodoScreenViewModel @Inject constructor() :
@@ -21,11 +20,9 @@ class AddTodoScreenViewModel @Inject constructor() :
       title = "",
       description = "",
       recurring = false,
-      frequencyDropDownExpanded = false,
       selectedFrequency = EventFrequencyEnum.Daily,
       hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
-      dayDropDownExpanded = false,
-      selectedDayOfMonth = 1
+      selectedDayOfMonth = 1, selectedMonth = Month.JANUARY
     )
   }
 
@@ -53,7 +50,6 @@ class AddTodoScreenViewModel @Inject constructor() :
           )
         }
       }
-      is AddTodoScreenEvent.FrequencyDropDownExpanded -> handleFrequencyDropdownEvent(event)
       is FrequencyChanged -> handleFrequencyPicked(event)
       is AddTodoScreenEvent.TimePicked -> {
         updateState {
@@ -72,12 +68,10 @@ class AddTodoScreenViewModel @Inject constructor() :
           )
         }
       }
-      is AddTodoScreenEvent.DayOfMonthDropDownExpanded -> {
-        updateState {
-          copy(
-            dayDropDownExpanded = event.expanded
-          )
-        }
+      is AddTodoScreenEvent.SelectedMonth -> updateState {
+        copy(
+          selectedMonth = event.month
+        )
       }
     }
   }
@@ -118,18 +112,6 @@ class AddTodoScreenViewModel @Inject constructor() :
       copy(
         selectedDaysOfWeek = updatedList
       )
-    }
-  }
-
-  private fun handleFrequencyDropdownEvent(
-    event: AddTodoScreenEvent.FrequencyDropDownExpanded
-  ) {
-    viewModelScope.launch {
-      updateState {
-        copy(
-          frequencyDropDownExpanded = event.expanded
-        )
-      }
     }
   }
 }

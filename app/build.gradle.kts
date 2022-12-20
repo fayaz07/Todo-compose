@@ -60,6 +60,7 @@ dependencies {
   implementation(project(Modules.feature.onboarding))
   implementation(project(Modules.feature.dashboard))
   androidTestImplementation(project(Modules.utils.androidTest))
+  androidTestImplementation(project(Modules.utils.core))
 
   implementation(Dependencies.DI.dagger)
   kapt(Dependencies.DI.daggerKapt)
