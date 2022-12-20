@@ -25,12 +25,14 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
 import com.fayaz.todo_jc.design_kit.theme.color
+import dev.mohammadfayaz.todojc.utils.core.constants.StringConstants
 
+@Suppress("LongParameterList")
 @Composable
 fun AppOutlinedTextField(
   modifier: Modifier = Modifier,
   title: String,
-  hint: String = "",
+  hint: String = StringConstants.EMPTY,
   value: String,
   onValueChange: (String) -> Unit,
   enabled: Boolean = true,

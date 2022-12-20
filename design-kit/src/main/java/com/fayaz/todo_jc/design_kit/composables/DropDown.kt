@@ -19,22 +19,27 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fayaz.todo_jc.design_kit.theme.Spacing16
+import dev.mohammadfayaz.todojc.utils.core.constants.StringConstants
+import dev.mohammadfayaz.todojc.utils.core.ui.ScreenConstants.DEF_DROPDOWN_HEIGHT
+import dev.mohammadfayaz.todojc.utils.core.ui.ScreenConstants.DEF_HORIZONTAL_PADDING
+import dev.mohammadfayaz.todojc.utils.core.ui.ScreenConstants.ZERO
 
+@Suppress("LongParameterList")
 @Composable
 fun <T> AppDropDownList(
   label: String,
   value: String,
   items: List<T>,
-  width: Dp = 0.dp,
-  height: Dp = 200.dp,
+  width: Dp = ZERO.dp,
+  height: Dp = DEF_DROPDOWN_HEIGHT.dp,
   display: (T) -> String,
   onSelected: (T) -> Unit,
   onExpanded: () -> Unit,
   onDismissed: () -> Unit
 ) {
   var expanded by remember { mutableStateOf(false) }
-  val dropDownMenuWidth = if (width == 0.dp) {
-    (LocalConfiguration.current.screenWidthDp - 32).dp
+  val dropDownMenuWidth = if (width == ZERO.dp) {
+    (LocalConfiguration.current.screenWidthDp - DEF_HORIZONTAL_PADDING).dp
   } else {
     width
   }
@@ -49,7 +54,7 @@ fun <T> AppDropDownList(
           }
         },
       title = label,
-      hint = "",
+      hint = StringConstants.EMPTY,
       value = value,
       onValueChange = {},
       readOnly = true,

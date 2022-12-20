@@ -1,7 +1,7 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import com.fayaz.todo_jc.core.base.vm.ViewEvent
-import com.fayaz.todo_jc.features.dashboard.utils.Month
+import dev.mohammadfayaz.todojc.utils.core.date.Month
 import java.time.DayOfWeek
 
 sealed class AddTodoScreenEvent : ViewEvent() {

@@ -13,6 +13,7 @@ object Versions {
   const val ANDROIDX_JUNIT = "1.1.3"
   const val EXPRESSO_CORE = "3.4.0"
   const val TEST_RUNNER = "1.4.0"
+  const val FLUENT: String = "1.72"
 
   const val ACCOMPANIST = "0.28.0"
 

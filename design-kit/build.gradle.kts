@@ -42,6 +42,8 @@ android {
 dependencies {
   implementation(Dependencies.AndroidX.core)
 
+  implementation(project(Modules.utils.core))
+
   implementation(Dependencies.Compose.toolingPreview)
   implementation(Dependencies.Compose.material)
   implementation(Dependencies.Compose.ui)

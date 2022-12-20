@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_HOUR
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_MINUTE
 
 @Composable
 fun TimePicker(
@@ -17,7 +19,6 @@ fun TimePicker(
   value: String,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-  is24HourView: Boolean = false,
   onValueChange: (Int, Int) -> Unit,
 ) {
   val focusManager = LocalFocusManager.current
@@ -29,9 +30,9 @@ fun TimePicker(
         onValueChange(hour, minute)
         focusManager.clearFocus()
       },
-      5,
-      0,
-      is24HourView,
+      INITIAL_HOUR,
+      INITIAL_MINUTE,
+      false,
     )
   }
 

@@ -6,8 +6,11 @@ import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.De
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.FrequencyChanged
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.RecurringChanged
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.TitleChanged
-import com.fayaz.todo_jc.features.dashboard.utils.Month
+import dev.mohammadfayaz.todojc.utils.core.date.Month
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_HOUR
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_MINUTE
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_MONTH
 import java.time.DayOfWeek
 import javax.inject.Inject
 
@@ -21,8 +24,8 @@ class AddTodoScreenViewModel @Inject constructor() :
       description = "",
       recurring = false,
       selectedFrequency = EventFrequencyEnum.Daily,
-      hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
-      selectedDayOfMonth = 1, selectedMonth = Month.JANUARY
+      hour = INITIAL_HOUR, minute = INITIAL_MINUTE, selectedDaysOfWeek = emptyList(),
+      selectedDayOfMonth = INITIAL_MONTH, selectedMonth = Month.JANUARY
     )
   }
 

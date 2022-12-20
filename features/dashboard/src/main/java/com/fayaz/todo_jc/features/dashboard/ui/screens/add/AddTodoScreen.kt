@@ -1,3 +1,4 @@
+@file:Suppress("TooManyFunctions")
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import androidx.compose.animation.AnimatedVisibility
@@ -10,7 +11,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -41,6 +45,7 @@ import com.fayaz.todo_jc.design_kit.composables.AppDropDownList
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.Space
 import com.fayaz.todo_jc.design_kit.composables.TimePicker
+import com.fayaz.todo_jc.design_kit.composables.verticalScrollbar
 import com.fayaz.todo_jc.design_kit.theme.DeepPurple600
 import com.fayaz.todo_jc.design_kit.theme.Spacing12
 import com.fayaz.todo_jc.design_kit.theme.Spacing16
@@ -48,9 +53,12 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
-import com.fayaz.todo_jc.features.dashboard.utils.Month
+import dev.mohammadfayaz.todojc.utils.core.date.Month
 import com.google.accompanist.flowlayout.FlowRow
-import dev.mohammadfayaz.todojc.utils.core.sentence
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.DOUBLE_DIGIT
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MAX_HOURS
+import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MIN_DAYS_OF_MONTH
+import dev.mohammadfayaz.todojc.utils.core.extensions.sentence
 import java.time.DayOfWeek
 
 @Composable
@@ -112,6 +120,8 @@ private fun Body(
     modifier = Modifier
       .padding(paddingValues)
       .padding(top = Spacing24)
+      .verticalScroll(rememberScrollState())
+      .verticalScrollbar(rememberLazyListState())
   ) {
     TitleTextField(state, actor)
     Space(Spacing8)
@@ -307,18 +317,18 @@ private fun AtTimeField(state: AddTodoScreenState, actor: (event: AddTodoScreenE
 // This code definitely need refactoring
 private fun generalizedTime(hour: Int, minute: Int): String {
   var meridian = "AM"
-  val min = if (minute > 9) {
-    minute
-  } else {
+  val min = if (minute < DOUBLE_DIGIT) {
     "0$minute"
+  } else {
+    minute
   }
-  val hrInt = if (hour > 12) {
+  val hrInt = if (hour > MAX_HOURS) {
     meridian = "PM"
-    hour - 12
+    hour - MAX_HOURS
   } else {
     hour
   }
-  val hr = if (hrInt < 10) {
+  val hr = if (hrInt < DOUBLE_DIGIT) {
     "0$hrInt"
   } else {
     hrInt
@@ -421,7 +431,7 @@ private fun DaysDropDown(
   focusManager: FocusManager
 ) {
   val days = remember {
-    generateSequence(1) { it + 1 }.take(29).toList()
+    generateSequence(1) { it + 1 }.take(MIN_DAYS_OF_MONTH).toList()
   }
   AppDropDownList(
     label = "On",
