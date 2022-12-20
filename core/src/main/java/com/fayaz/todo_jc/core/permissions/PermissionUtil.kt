@@ -12,8 +12,8 @@ import androidx.lifecycle.LifecycleOwner
 
 class PermissionUtil(
   private val registry: ActivityResultRegistry,
-  private val callback: PermissionCallback,
-  private val activity: Activity
+  private val activity: Activity,
+  private val callback: PermissionCallback
 ) : DefaultLifecycleObserver {
 
   private val permissionsKey = "permissions"
