@@ -1,6 +1,9 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +12,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -22,27 +27,34 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.Space
 import com.fayaz.todo_jc.design_kit.composables.TimePicker
+import com.fayaz.todo_jc.design_kit.theme.DeepPurple600
+import com.fayaz.todo_jc.design_kit.theme.Spacing12
 import com.fayaz.todo_jc.design_kit.theme.Spacing16
 import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
+import com.google.accompanist.flowlayout.FlowRow
+import java.time.DayOfWeek
 
 @Composable
 @Preview
@@ -53,7 +65,7 @@ private fun Preview() {
       recurring = false,
       frequencyDropDownExpanded = false,
       selectedFrequency = EventFrequencyEnum.Daily,
-      hour = 0, minute = 0
+      hour = 0, minute = 0, selectedDaysOfWeek = emptyList()
     )
   ) {}
 }
@@ -118,7 +130,10 @@ private fun Body(
       )
     }
     AnimatedVisibility(visible = state.recurring) {
-      EventFrequencyField(state.selectedFrequency)
+      EventFrequencyTitle(state.selectedFrequency)
+    }
+    AnimatedVisibility(visible = state.recurring) {
+      EventFrequencyField(state.selectedFrequency, state.selectedDaysOfWeek, actor)
     }
     AtTimeField(state, actor)
   }
@@ -187,10 +202,7 @@ private fun RecursiveToggle(
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Text(
-      text = "Recurring",
-      style = TodoAppTypography.body1.copy(fontWeight = FontWeight.Medium)
-    )
+    FieldTitle(title = "Recurring")
     Switch(
       checked = state.recurring,
       onCheckedChange = {
@@ -257,13 +269,49 @@ private fun FrequencyDropDown(
 }
 
 @Composable
-private fun EventFrequencyField(selectedFrequency: EventFrequencyEnum) {
-  when (selectedFrequency) {
+private fun EventFrequencyTitle(
+  selectedFrequency: EventFrequencyEnum
+) {
+  val title = when (selectedFrequency) {
+    EventFrequencyEnum.Weekly -> "Pick day of the week"
+    EventFrequencyEnum.SpecificDays -> "Pick days of the week"
+    EventFrequencyEnum.Monthly -> "Pick day of the month"
+    EventFrequencyEnum.Yearly -> "Pick day of the year"
+    else -> null
+  }
+  title?.let {
+    FieldTitle(
+      modifier = Modifier.padding(start = Spacing16, top = Spacing8),
+      title = title
+    )
+  }
+}
+
+@Composable
+private fun EventFrequencyField(
+  selectedFrequency: EventFrequencyEnum,
+  selectedDaysOfWeek: List<DayOfWeek>,
+  actor: (event: AddTodoScreenEvent) -> Unit
+) {
+  return when (selectedFrequency) {
     EventFrequencyEnum.Daily -> {}
-    EventFrequencyEnum.Weekly -> {}
-    EventFrequencyEnum.SpecificDays -> {}
-    EventFrequencyEnum.Monthly -> {}
-    EventFrequencyEnum.Yearly -> {}
+    EventFrequencyEnum.Weekly -> {
+      // On any one day
+      PickDaysOfWeek(selectedDaysOfWeek, actor)
+    }
+
+    EventFrequencyEnum.SpecificDays -> {
+      // on few days of week
+      PickDaysOfWeek(selectedDaysOfWeek, actor)
+    }
+
+    EventFrequencyEnum.Monthly -> {
+      // pick one day from (1 to 29)
+    }
+
+    EventFrequencyEnum.Yearly -> {
+      // pick month and day
+    }
   }
 }
 
@@ -294,4 +342,90 @@ private fun generalizedTime(hour: Int, minute: Int): String {
     hrInt
   }
   return "${hr}:${min} $meridian"
+}
+
+@Composable
+private fun PickDaysOfWeek(
+  selectedDaysOfWeek: List<DayOfWeek>,
+  actor: (event: AddTodoScreenEvent) -> Unit
+) {
+  val days = DayOfWeek.values()
+  FlowRow(
+    modifier = Modifier
+      .padding(horizontal = Spacing12)
+      .padding(bottom = Spacing8)
+  ) {
+    for (day in days) {
+      val isSelected = selectedDaysOfWeek.any { selected -> selected == day }
+      if (isSelected) {
+        SelectedDayChip(day, actor)
+      } else {
+        UnSelectedDayChip(day, actor)
+      }
+    }
+  }
+}
+
+@Composable
+private fun SelectedDayChip(day: DayOfWeek, actor: (event: AddTodoScreenEvent) -> Unit) {
+  val interactionSource = remember { MutableInteractionSource() }
+  Card(
+    modifier = Modifier
+      .padding(Spacing4)
+      .clickable(
+        interactionSource = interactionSource,
+        indication = null
+      ) {
+        actor(AddTodoScreenEvent.UnSelectedDayOfWeek(day))
+      },
+    shape = RoundedCornerShape(Spacing16),
+    backgroundColor = DeepPurple600
+  ) {
+    DayChipText(day.name, true)
+  }
+}
+
+@Composable
+private fun UnSelectedDayChip(day: DayOfWeek, actor: (event: AddTodoScreenEvent) -> Unit) {
+  val interactionSource = remember { MutableInteractionSource() }
+  Card(
+    modifier = Modifier
+      .padding(Spacing4)
+      .clickable(
+        interactionSource = interactionSource,
+        indication = null
+      ) {
+        actor(AddTodoScreenEvent.SelectedDayOfWeek(day))
+      },
+    border = BorderStroke(1.dp, DeepPurple600),
+    shape = RoundedCornerShape(Spacing16),
+  ) {
+    DayChipText(day.name, false)
+  }
+}
+
+@Composable
+fun DayChipText(name: String, isSelected: Boolean) {
+  Text(
+    text = name,
+    textAlign = TextAlign.Center,
+    modifier = Modifier.padding(horizontal = Spacing16, vertical = Spacing4),
+    style = TodoAppTypography.body1.copy(
+      fontWeight = FontWeight.Medium
+    ),
+    color = if (isSelected) {
+      Color.White
+    } else {
+      Color.Black
+    }
+  )
+}
+
+@Composable
+private fun FieldTitle(modifier: Modifier = Modifier, title: String) {
+  Text(
+    modifier = modifier,
+    text = title,
+    style = TodoAppTypography.body1.copy(fontWeight = FontWeight.Medium)
+  )
 }

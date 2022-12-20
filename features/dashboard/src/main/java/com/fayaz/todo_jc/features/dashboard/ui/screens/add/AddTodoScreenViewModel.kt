@@ -8,6 +8,7 @@ import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.Fr
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.RecurringChanged
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.TitleChanged
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.DayOfWeek
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
@@ -22,7 +23,7 @@ class AddTodoScreenViewModel @Inject constructor() :
       recurring = false,
       frequencyDropDownExpanded = false,
       selectedFrequency = EventFrequencyEnum.Daily,
-      hour = 0, minute = 0
+      hour = 0, minute = 0, selectedDaysOfWeek = emptyList()
     )
   }
 
@@ -36,7 +37,6 @@ class AddTodoScreenViewModel @Inject constructor() :
           )
         }
       }
-
       is DescriptionChanged -> {
         updateState {
           copy(
@@ -44,7 +44,6 @@ class AddTodoScreenViewModel @Inject constructor() :
           )
         }
       }
-
       is RecurringChanged -> {
         updateState {
           copy(
@@ -52,16 +51,8 @@ class AddTodoScreenViewModel @Inject constructor() :
           )
         }
       }
-
       is AddTodoScreenEvent.FrequencyDropDownExpanded -> handleFrequencyDropdownEvent(event)
-      is FrequencyChanged -> {
-        updateState {
-          copy(
-            selectedFrequency = event.frequency
-          )
-        }
-      }
-
+      is FrequencyChanged -> handleFrequencyPicked(event)
       is AddTodoScreenEvent.TimePicked -> {
         updateState {
           copy(
@@ -70,6 +61,47 @@ class AddTodoScreenViewModel @Inject constructor() :
           )
         }
       }
+      is AddTodoScreenEvent.SelectedDayOfWeek -> handleWeekDaysSelection(event)
+      is AddTodoScreenEvent.UnSelectedDayOfWeek -> handleWeekDayUnSelection(event)
+    }
+  }
+
+  private fun handleFrequencyPicked(event: FrequencyChanged) {
+    updateState {
+      copy(
+        selectedFrequency = event.frequency,
+        selectedDaysOfWeek = emptyList()
+      )
+    }
+  }
+
+  private fun handleWeekDayUnSelection(event: AddTodoScreenEvent.UnSelectedDayOfWeek) {
+    val state = viewState.value
+    val updatedList = mutableListOf<DayOfWeek>()
+    if (state.selectedFrequency == EventFrequencyEnum.SpecificDays) {
+      updatedList.addAll(state.selectedDaysOfWeek)
+      updatedList.remove(event.day)
+    }
+    updateState {
+      copy(
+        selectedDaysOfWeek = updatedList
+      )
+    }
+  }
+
+  private fun handleWeekDaysSelection(event: AddTodoScreenEvent.SelectedDayOfWeek) {
+    val state = viewState.value
+    val updatedList = mutableListOf<DayOfWeek>()
+    if (state.selectedFrequency == EventFrequencyEnum.Weekly) {
+      updatedList.add(event.day)
+    } else {
+      updatedList.addAll(state.selectedDaysOfWeek)
+      updatedList.add(event.day)
+    }
+    updateState {
+      copy(
+        selectedDaysOfWeek = updatedList
+      )
     }
   }
 

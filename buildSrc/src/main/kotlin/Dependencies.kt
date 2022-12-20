@@ -4,6 +4,7 @@ import Versions.ANDROIDX_CORE
 import Versions.ANDROIDX_JUNIT
 import Versions.APP_COMPAT
 import Versions.COMPOSE
+import Versions.COMPOSE_MATERIAL
 import Versions.DAGGER
 import Versions.DATASTORE
 import Versions.EXPRESSO_CORE
@@ -27,8 +28,10 @@ object Dependencies {
 
   object Google {
     object Accompanist {
-      val pager by lazy { "com.google.accompanist:accompanist-pager:$ACCOMPANIST" }
-      val pagerIndicators by lazy { "com.google.accompanist:accompanist-pager-indicators:$ACCOMPANIST" }
+      private const val accompanistBase = "com.google.accompanist:accompanist"
+      val pager by lazy { "${accompanistBase}-pager:$ACCOMPANIST" }
+      val pagerIndicators by lazy { "${accompanistBase}-pager-indicators:$ACCOMPANIST" }
+      val flowLayouts by lazy { "${accompanistBase}-flowlayout:$ACCOMPANIST" }
     }
   }
 
@@ -43,7 +46,7 @@ object Dependencies {
 
   object Compose {
     val ui by lazy { "androidx.compose.ui:ui:$COMPOSE" }
-    val material by lazy { "androidx.compose.material:material:$COMPOSE" }
+    val material by lazy { "androidx.compose.material:material:$COMPOSE_MATERIAL" }
     val toolingPreview by lazy { "androidx.compose.ui:ui-tooling-preview:$COMPOSE" }
     val activity by lazy { "androidx.activity:activity-compose:$ACTIVITY_COMPOSE" }
     val uiTooling by lazy { "androidx.compose.ui:ui-tooling:$COMPOSE" }

@@ -1,6 +1,7 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import com.fayaz.todo_jc.core.base.vm.ViewEvent
+import java.time.DayOfWeek
 
 sealed class AddTodoScreenEvent : ViewEvent() {
   object AddTodo : AddTodoScreenEvent()
@@ -10,4 +11,6 @@ sealed class AddTodoScreenEvent : ViewEvent() {
   data class FrequencyDropDownExpanded(val expanded: Boolean) : AddTodoScreenEvent()
   data class FrequencyChanged(val frequency: EventFrequencyEnum) : AddTodoScreenEvent()
   data class TimePicked(val hour: Int, val minute: Int): AddTodoScreenEvent()
+  data class SelectedDayOfWeek(val day: DayOfWeek): AddTodoScreenEvent()
+  data class UnSelectedDayOfWeek(val day: DayOfWeek): AddTodoScreenEvent()
 }
