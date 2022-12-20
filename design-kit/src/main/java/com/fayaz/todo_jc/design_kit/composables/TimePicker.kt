@@ -17,7 +17,7 @@ fun TimePicker(
   value: String,
   keyboardActions: KeyboardActions = KeyboardActions.Default,
   keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-  is24HourView: Boolean = true,
+  is24HourView: Boolean = false,
   onValueChange: (Int, Int) -> Unit,
 ) {
   val focusManager = LocalFocusManager.current

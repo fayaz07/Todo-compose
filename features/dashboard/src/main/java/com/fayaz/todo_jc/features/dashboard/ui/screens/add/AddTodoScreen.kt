@@ -120,7 +120,7 @@ private fun Body(
     AnimatedVisibility(visible = state.recurring) {
       EventFrequencyField(state.selectedFrequency)
     }
-    TimeField(state, actor)
+    AtTimeField(state, actor)
   }
 }
 
@@ -268,8 +268,30 @@ private fun EventFrequencyField(selectedFrequency: EventFrequencyEnum) {
 }
 
 @Composable
-private fun TimeField(state: AddTodoScreenState, actor: (event: AddTodoScreenEvent) -> Unit) {
-  TimePicker(label = "At", value = "${state.hour}:${state.minute}") { h, m ->
+private fun AtTimeField(state: AddTodoScreenState, actor: (event: AddTodoScreenEvent) -> Unit) {
+  TimePicker(label = "At", value = generalizedTime(state.hour, state.minute)) { h, m ->
     actor(AddTodoScreenEvent.TimePicked(h, m))
   }
+}
+
+// This code definitely need refactoring
+private fun generalizedTime(hour: Int, minute: Int): String {
+  var meridian = "AM"
+  val min = if (minute > 9) {
+    minute
+  } else {
+    "0$minute"
+  }
+  val hrInt = if (hour > 12) {
+    meridian = "PM"
+    hour - 12
+  } else {
+    hour
+  }
+  val hr = if (hrInt < 10) {
+    "0$hrInt"
+  } else {
+    hrInt
+  }
+  return "${hr}:${min} $meridian"
 }
