@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,7 +66,8 @@ private fun Preview() {
       recurring = false,
       frequencyDropDownExpanded = false,
       selectedFrequency = EventFrequencyEnum.Daily,
-      hour = 0, minute = 0, selectedDaysOfWeek = emptyList()
+      hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
+      dayDropDownExpanded = false, selectedDayOfMonth = 1
     )
   ) {}
 }
@@ -133,7 +135,7 @@ private fun Body(
       EventFrequencyTitle(state.selectedFrequency)
     }
     AnimatedVisibility(visible = state.recurring) {
-      EventFrequencyField(state.selectedFrequency, state.selectedDaysOfWeek, actor)
+      EventFrequencyField(state, actor, keyboardController, focusManager)
     }
     AtTimeField(state, actor)
   }
@@ -275,8 +277,6 @@ private fun EventFrequencyTitle(
   val title = when (selectedFrequency) {
     EventFrequencyEnum.Weekly -> "Pick day of the week"
     EventFrequencyEnum.SpecificDays -> "Pick days of the week"
-    EventFrequencyEnum.Monthly -> "Pick day of the month"
-    EventFrequencyEnum.Yearly -> "Pick day of the year"
     else -> null
   }
   title?.let {
@@ -287,26 +287,34 @@ private fun EventFrequencyTitle(
   }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun EventFrequencyField(
-  selectedFrequency: EventFrequencyEnum,
-  selectedDaysOfWeek: List<DayOfWeek>,
-  actor: (event: AddTodoScreenEvent) -> Unit
+  state: AddTodoScreenState,
+  actor: (event: AddTodoScreenEvent) -> Unit,
+  keyboardController: SoftwareKeyboardController?,
+  focusManager: FocusManager
 ) {
-  return when (selectedFrequency) {
+  return when (state.selectedFrequency) {
     EventFrequencyEnum.Daily -> {}
     EventFrequencyEnum.Weekly -> {
       // On any one day
-      PickDaysOfWeek(selectedDaysOfWeek, actor)
+      PickDaysOfWeek(state.selectedDaysOfWeek, actor)
     }
 
     EventFrequencyEnum.SpecificDays -> {
       // on few days of week
-      PickDaysOfWeek(selectedDaysOfWeek, actor)
+      PickDaysOfWeek(state.selectedDaysOfWeek, actor)
     }
 
     EventFrequencyEnum.Monthly -> {
       // pick one day from (1 to 29)
+      DaysDropDown(
+        state,
+        actor,
+        keyboardController,
+        focusManager
+      )
     }
 
     EventFrequencyEnum.Yearly -> {
@@ -428,4 +436,60 @@ private fun FieldTitle(modifier: Modifier = Modifier, title: String) {
     text = title,
     style = TodoAppTypography.body1.copy(fontWeight = FontWeight.Medium)
   )
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+private fun DaysDropDown(
+  state: AddTodoScreenState,
+  actor: (event: AddTodoScreenEvent) -> Unit,
+  keyboardController: SoftwareKeyboardController?,
+  focusManager: FocusManager
+) {
+  val days = remember {
+    generateSequence(1) { it + 1 }.take(29)
+  }
+  val dropDownMenuWidth = (LocalConfiguration.current.screenWidthDp - 32).dp
+
+  Column {
+    AppOutlinedTextField(
+      modifier = Modifier
+        .onFocusChanged {
+          if (it.hasFocus || it.isFocused) {
+            keyboardController?.hide()
+            actor(AddTodoScreenEvent.DayOfMonthDropDownExpanded(true))
+          }
+        },
+      title = "On",
+      hint = "",
+      value = state.selectedDayOfMonth.toString(),
+      onValueChange = {},
+      readOnly = true,
+    )
+    Box(
+      modifier = Modifier.padding(horizontal = Spacing16)
+    ) {
+      DropdownMenu(
+        modifier = Modifier.width(dropDownMenuWidth).height(200.dp),
+        expanded = state.dayDropDownExpanded,
+        onDismissRequest = {
+          keyboardController?.hide()
+          focusManager.clearFocus()
+          actor(AddTodoScreenEvent.DayOfMonthDropDownExpanded(false))
+        },
+      ) {
+        days.forEachIndexed { _, s ->
+          DropdownMenuItem(
+            onClick = {
+              actor(AddTodoScreenEvent.SelectedDayOfMonth(s))
+              actor(AddTodoScreenEvent.DayOfMonthDropDownExpanded(false))
+              focusManager.clearFocus()
+            }
+          ) {
+            Text(text = s.toString())
+          }
+        }
+      }
+    }
+  }
 }

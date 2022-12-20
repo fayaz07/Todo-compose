@@ -23,7 +23,9 @@ class AddTodoScreenViewModel @Inject constructor() :
       recurring = false,
       frequencyDropDownExpanded = false,
       selectedFrequency = EventFrequencyEnum.Daily,
-      hour = 0, minute = 0, selectedDaysOfWeek = emptyList()
+      hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
+      dayDropDownExpanded = false,
+      selectedDayOfMonth = 1
     )
   }
 
@@ -63,6 +65,20 @@ class AddTodoScreenViewModel @Inject constructor() :
       }
       is AddTodoScreenEvent.SelectedDayOfWeek -> handleWeekDaysSelection(event)
       is AddTodoScreenEvent.UnSelectedDayOfWeek -> handleWeekDayUnSelection(event)
+      is AddTodoScreenEvent.SelectedDayOfMonth -> {
+        updateState {
+          copy(
+            selectedDayOfMonth = event.day
+          )
+        }
+      }
+      is AddTodoScreenEvent.DayOfMonthDropDownExpanded -> {
+        updateState {
+          copy(
+            dayDropDownExpanded = event.expanded
+          )
+        }
+      }
     }
   }
 

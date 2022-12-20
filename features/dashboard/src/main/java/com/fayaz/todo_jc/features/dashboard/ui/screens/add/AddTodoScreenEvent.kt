@@ -13,4 +13,6 @@ sealed class AddTodoScreenEvent : ViewEvent() {
   data class TimePicked(val hour: Int, val minute: Int): AddTodoScreenEvent()
   data class SelectedDayOfWeek(val day: DayOfWeek): AddTodoScreenEvent()
   data class UnSelectedDayOfWeek(val day: DayOfWeek): AddTodoScreenEvent()
+  data class SelectedDayOfMonth(val day: Int): AddTodoScreenEvent()
+  data class DayOfMonthDropDownExpanded(val expanded: Boolean) : AddTodoScreenEvent()
 }

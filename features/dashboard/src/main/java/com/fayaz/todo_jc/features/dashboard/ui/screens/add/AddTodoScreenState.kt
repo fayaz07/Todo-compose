@@ -13,4 +13,6 @@ data class AddTodoScreenState(
   val hour: Int,
   val minute: Int,
   val selectedDaysOfWeek: List<DayOfWeek>,
+  val dayDropDownExpanded: Boolean,
+  val selectedDayOfMonth: Int,
 ) : ViewState()
