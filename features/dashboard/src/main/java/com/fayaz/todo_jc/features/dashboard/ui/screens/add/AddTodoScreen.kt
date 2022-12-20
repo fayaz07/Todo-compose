@@ -1,4 +1,5 @@
 @file:Suppress("TooManyFunctions")
+
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import androidx.compose.animation.AnimatedVisibility
@@ -33,6 +34,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -41,6 +43,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.fayaz.todo_jc.core.permissions.PermissionUtil
+import com.fayaz.todo_jc.design_kit.composables.AddImageComposable
 import com.fayaz.todo_jc.design_kit.composables.AppDropDownList
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.FieldTitle
@@ -54,9 +58,9 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
-import dev.mohammadfayaz.todojc.utils.core.date.Month
 import com.google.accompanist.flowlayout.FlowRow
 import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MIN_DAYS_OF_MONTH
+import dev.mohammadfayaz.todojc.utils.core.date.Month
 import dev.mohammadfayaz.todojc.utils.core.date.generalizeTime
 import dev.mohammadfayaz.todojc.utils.core.extensions.sentence
 import java.time.DayOfWeek
@@ -144,6 +148,25 @@ private fun Body(
     }
     TimePicker(label = "At", value = generalizeTime(state.hour, state.minute)) { h, m ->
       actor(AddTodoScreenEvent.TimePicked(h, m))
+    }
+    AttachmentsComposable()
+  }
+}
+
+@Composable
+private fun AttachmentsComposable() {
+  val context = LocalContext.current
+  FlowRow(
+    modifier = Modifier.padding(horizontal = Spacing16, vertical = Spacing8)
+  ) {
+    FieldTitle(
+      title = "Add Attachments (Optional)",
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(bottom = Spacing8)
+    )
+    AddImageComposable(size = 64.dp) {
+
     }
   }
 }

@@ -17,3 +17,4 @@ val ErrorColor = Color(0xffBA1A1A)
 val HintColor = Color(0xff001847)
 
 val ScrollBarColor = Color(0xffdbdbdb)
+val IconTintColor = Color(0xFF8B8B8B)
