@@ -8,7 +8,7 @@ import Versions.COMPOSE_MATERIAL
 import Versions.DAGGER
 import Versions.DATASTORE
 import Versions.EXPRESSO_CORE
-import Versions.FLUENT
+import Versions.KO_TEST
 import Versions.HILT_NAVIGATION_COMPOSE
 import Versions.JUNIT
 import Versions.LEAK_CANARY
@@ -55,7 +55,7 @@ object Dependencies {
   }
 
   object Test {
-    val fluent by lazy { "org.amshove.kluent:kluent:$FLUENT" }
+    val koTest by lazy { "io.kotest:kotest-runner-junit5:$KO_TEST" }
     val junit by lazy { "junit:junit:$JUNIT" }
     val androidxJUnit by lazy { "androidx.test.ext:junit:$ANDROIDX_JUNIT" }
     val expressoCore by lazy { "androidx.test.espresso:espresso-core:$EXPRESSO_CORE" }

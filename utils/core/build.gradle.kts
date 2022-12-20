@@ -36,7 +36,7 @@ android {
 dependencies {
   implementation(Dependencies.AndroidX.core)
 
-  testImplementation(Dependencies.Test.fluent)
+  testImplementation(Dependencies.Test.koTest)
   testImplementation(Dependencies.Test.androidxJUnit)
   testImplementation(Dependencies.Test.junit)
 }

@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fayaz.todo_jc.design_kit.composables.AppDropDownList
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
+import com.fayaz.todo_jc.design_kit.composables.FieldTitle
 import com.fayaz.todo_jc.design_kit.composables.Space
 import com.fayaz.todo_jc.design_kit.composables.TimePicker
 import com.fayaz.todo_jc.design_kit.composables.verticalScrollbar
@@ -55,9 +56,8 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
 import dev.mohammadfayaz.todojc.utils.core.date.Month
 import com.google.accompanist.flowlayout.FlowRow
-import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.DOUBLE_DIGIT
-import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MAX_HOURS
 import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MIN_DAYS_OF_MONTH
+import dev.mohammadfayaz.todojc.utils.core.date.generalizeTime
 import dev.mohammadfayaz.todojc.utils.core.extensions.sentence
 import java.time.DayOfWeek
 
@@ -142,7 +142,9 @@ private fun Body(
     AnimatedVisibility(visible = state.recurring) {
       EventFrequencyField(state, actor, keyboardController, focusManager)
     }
-    AtTimeField(state, actor)
+    TimePicker(label = "At", value = generalizeTime(state.hour, state.minute)) { h, m ->
+      actor(AddTodoScreenEvent.TimePicked(h, m))
+    }
   }
 }
 
@@ -308,35 +310,6 @@ private fun EventFrequencyField(
 }
 
 @Composable
-private fun AtTimeField(state: AddTodoScreenState, actor: (event: AddTodoScreenEvent) -> Unit) {
-  TimePicker(label = "At", value = generalizedTime(state.hour, state.minute)) { h, m ->
-    actor(AddTodoScreenEvent.TimePicked(h, m))
-  }
-}
-
-// This code definitely need refactoring
-private fun generalizedTime(hour: Int, minute: Int): String {
-  var meridian = "AM"
-  val min = if (minute < DOUBLE_DIGIT) {
-    "0$minute"
-  } else {
-    minute
-  }
-  val hrInt = if (hour > MAX_HOURS) {
-    meridian = "PM"
-    hour - MAX_HOURS
-  } else {
-    hour
-  }
-  val hr = if (hrInt < DOUBLE_DIGIT) {
-    "0$hrInt"
-  } else {
-    hrInt
-  }
-  return "${hr}:${min} $meridian"
-}
-
-@Composable
 private fun PickDaysOfWeek(
   selectedDaysOfWeek: List<DayOfWeek>,
   actor: (event: AddTodoScreenEvent) -> Unit
@@ -410,15 +383,6 @@ fun DayChipText(name: String, isSelected: Boolean) {
     } else {
       Color.Black
     }
-  )
-}
-
-@Composable
-private fun FieldTitle(modifier: Modifier = Modifier, title: String) {
-  Text(
-    modifier = modifier,
-    text = title,
-    style = TodoAppTypography.body1.copy(fontWeight = FontWeight.Medium)
   )
 }
 
