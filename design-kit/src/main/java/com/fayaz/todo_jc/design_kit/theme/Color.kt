@@ -15,3 +15,5 @@ val TextColorLight = Color.White
 
 val ErrorColor = Color(0xffBA1A1A)
 val HintColor = Color(0xff001847)
+
+val ScrollBarColor = Color(0xffdbdbdb)
