@@ -5,18 +5,13 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -33,9 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -44,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.fayaz.todo_jc.design_kit.composables.AppDropDownList
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.Space
 import com.fayaz.todo_jc.design_kit.composables.TimePicker
@@ -224,49 +218,20 @@ private fun FrequencyDropDown(
   keyboardController: SoftwareKeyboardController?,
   focusManager: FocusManager
 ) {
-  val items = EventFrequencyEnum.values()
-  val dropDownMenuWidth = (LocalConfiguration.current.screenWidthDp - 32).dp
+  val items = EventFrequencyEnum.values().toList()
 
-  Column {
-    AppOutlinedTextField(
-      modifier = Modifier
-        .onFocusChanged {
-          if (it.hasFocus || it.isFocused) {
-            keyboardController?.hide()
-            actor(AddTodoScreenEvent.FrequencyDropDownExpanded(true))
-          }
-        },
-      title = "Frequency",
-      hint = "",
-      value = state.selectedFrequency.display,
-      onValueChange = {},
-      readOnly = true,
-    )
-    Box(
-      modifier = Modifier.padding(horizontal = Spacing16)
-    ) {
-      DropdownMenu(
-        modifier = Modifier.width(dropDownMenuWidth),
-        expanded = state.frequencyDropDownExpanded,
-        onDismissRequest = {
-          keyboardController?.hide()
-          focusManager.clearFocus()
-          actor(AddTodoScreenEvent.FrequencyDropDownExpanded(false))
-        },
-      ) {
-        items.forEachIndexed { _, s ->
-          DropdownMenuItem(
-            onClick = {
-              actor(AddTodoScreenEvent.FrequencyChanged(s))
-              actor(AddTodoScreenEvent.FrequencyDropDownExpanded(false))
-              focusManager.clearFocus()
-            }
-          ) {
-            Text(text = s.display)
-          }
-        }
-      }
-    }
+  AppDropDownList(
+    label = "Frequency",
+    value = state.selectedFrequency.display,
+    items = items,
+    display = { it.display },
+    onSelected = {
+      actor(AddTodoScreenEvent.FrequencyChanged(it))
+      focusManager.clearFocus()
+    },
+    onExpanded = { keyboardController?.hide() }) {
+    keyboardController?.hide()
+    focusManager.clearFocus()
   }
 }
 
@@ -418,7 +383,7 @@ fun DayChipText(name: String, isSelected: Boolean) {
     text = name,
     textAlign = TextAlign.Center,
     modifier = Modifier.padding(horizontal = Spacing16, vertical = Spacing4),
-    style = TodoAppTypography.body1.copy(
+    style = TodoAppTypography.body2.copy(
       fontWeight = FontWeight.Medium
     ),
     color = if (isSelected) {
@@ -447,49 +412,22 @@ private fun DaysDropDown(
   focusManager: FocusManager
 ) {
   val days = remember {
-    generateSequence(1) { it + 1 }.take(29)
+    generateSequence(1) { it + 1 }.take(29).toList()
   }
-  val dropDownMenuWidth = (LocalConfiguration.current.screenWidthDp - 32).dp
-
-  Column {
-    AppOutlinedTextField(
-      modifier = Modifier
-        .onFocusChanged {
-          if (it.hasFocus || it.isFocused) {
-            keyboardController?.hide()
-            actor(AddTodoScreenEvent.DayOfMonthDropDownExpanded(true))
-          }
-        },
-      title = "On",
-      hint = "",
-      value = state.selectedDayOfMonth.toString(),
-      onValueChange = {},
-      readOnly = true,
-    )
-    Box(
-      modifier = Modifier.padding(horizontal = Spacing16)
-    ) {
-      DropdownMenu(
-        modifier = Modifier.width(dropDownMenuWidth).height(200.dp),
-        expanded = state.dayDropDownExpanded,
-        onDismissRequest = {
-          keyboardController?.hide()
-          focusManager.clearFocus()
-          actor(AddTodoScreenEvent.DayOfMonthDropDownExpanded(false))
-        },
-      ) {
-        days.forEachIndexed { _, s ->
-          DropdownMenuItem(
-            onClick = {
-              actor(AddTodoScreenEvent.SelectedDayOfMonth(s))
-              actor(AddTodoScreenEvent.DayOfMonthDropDownExpanded(false))
-              focusManager.clearFocus()
-            }
-          ) {
-            Text(text = s.toString())
-          }
-        }
-      }
+  AppDropDownList(
+    label = "On",
+    value = state.selectedDayOfMonth.toString(),
+    items = days,
+    display = { e -> e.toString() },
+    onSelected = {
+      actor(AddTodoScreenEvent.SelectedDayOfMonth(it))
+      focusManager.clearFocus()
+    },
+    onExpanded = {
+      keyboardController?.hide()
     }
+  ) {
+    keyboardController?.hide()
+    focusManager.clearFocus()
   }
 }
