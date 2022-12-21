@@ -14,9 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 class PermissionUtilCompose(
   private val activity: Activity,
   private val callback: PermissionCallback
-) : DefaultLifecycleObserver {
-
-//  private val permissionsKey = "permissions"
+) {
   private lateinit var requester: ActivityResultLauncher<Array<String>>
 
   @Composable
@@ -52,23 +50,18 @@ class PermissionUtilCompose(
   }
 
   fun requestPermission(permission: PermissionsEnum) {
-//    if (hasPermission(permission.id)) {
-//      callback.onGranted(permission)
-//      return
-//    }
-//    if (shouldShowRequestPermissionRationale(activity, permission.id)) {
-//      callback.onPermanentlyDenied(permission)
-//      return
-//    }
+    if (hasPermission(permission.id)) {
+      callback.onGranted(permission)
+      return
+    }
+    if (shouldShowRequestPermissionRationale(activity, permission.id)) {
+      callback.onPermanentlyDenied(permission)
+      return
+    }
     requester.launch(listOf(permission.id).toTypedArray())
   }
 
   fun cleanUp() {
-    requester.unregister()
-  }
-
-  override fun onDestroy(owner: LifecycleOwner) {
-    super.onDestroy(owner)
     requester.unregister()
   }
 }
