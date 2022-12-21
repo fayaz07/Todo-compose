@@ -53,6 +53,7 @@ dependencies {
   implementation(project(Modules.core))
   implementation(project(Modules.domain))
   implementation(project(Modules.data.prefs))
+  implementation(project(Modules.designKit))
   androidTestImplementation(project(Modules.utils.androidTest))
 
   implementation(Dependencies.DI.dagger)
@@ -63,7 +64,8 @@ dependencies {
 
   implementation(Dependencies.Google.Accompanist.pager)
   implementation(Dependencies.Google.Accompanist.pagerIndicators)
-  implementation(project(Modules.designKit))
+  implementation(Dependencies.Google.Accompanist.permissions)
+
   implementation(Dependencies.AndroidX.core)
   implementation(Dependencies.AndroidX.lifecycleRuntime)
 

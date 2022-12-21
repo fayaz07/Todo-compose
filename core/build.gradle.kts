@@ -53,6 +53,7 @@ dependencies {
 
   implementation(Dependencies.AndroidX.lifecycleRuntime)
   implementation(Dependencies.Compose.ui)
+  implementation(Dependencies.Compose.activity)
 
   implementation(Dependencies.Test.runner)
 

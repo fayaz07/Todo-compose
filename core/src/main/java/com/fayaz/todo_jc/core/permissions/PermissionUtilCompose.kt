@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.ActivityResultRegistry
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
@@ -12,22 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
-class PermissionUtil(
-  private val registry: ActivityResultRegistry,
+class PermissionUtilCompose(
   private val activity: Activity,
   private val callback: PermissionCallback
 ) : DefaultLifecycleObserver {
 
-  private val permissionsKey = "permissions"
+//  private val permissionsKey = "permissions"
   private lateinit var requester: ActivityResultLauncher<Array<String>>
-
-  private fun setupForActivity(owner: LifecycleOwner) {
-    requester = registry.register(
-      permissionsKey, owner, ActivityResultContracts.RequestMultiplePermissions()
-    ) {
-      handlePermissionRequest(it!!)
-    }
-  }
 
   @Composable
   fun SetupForComposable() {
@@ -36,11 +26,6 @@ class PermissionUtil(
     ) {
       handlePermissionRequest(it)
     }
-  }
-
-  override fun onCreate(owner: LifecycleOwner) {
-    super.onCreate(owner)
-    setupForActivity(owner)
   }
 
   private fun handlePermissionRequest(result: Map<String, Boolean>) {
@@ -67,15 +52,15 @@ class PermissionUtil(
   }
 
   fun requestPermission(permission: PermissionsEnum) {
-    if (hasPermission(permission.id)) {
-      callback.onGranted(permission)
-      return
-    }
-    if (shouldShowRequestPermissionRationale(activity, permission.id)) {
-      callback.onPermanentlyDenied(permission)
-      return
-    }
-    requester.launch(listOf(PermissionsEnum.Gallery.id).toTypedArray())
+//    if (hasPermission(permission.id)) {
+//      callback.onGranted(permission)
+//      return
+//    }
+//    if (shouldShowRequestPermissionRationale(activity, permission.id)) {
+//      callback.onPermanentlyDenied(permission)
+//      return
+//    }
+    requester.launch(listOf(permission.id).toTypedArray())
   }
 
   fun cleanUp() {

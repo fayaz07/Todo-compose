@@ -1,6 +1,7 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
 import com.fayaz.todo_jc.core.base.vm.ViewState
+import com.fayaz.todo_jc.core.permissions.PermissionsEnum
 import dev.mohammadfayaz.todojc.utils.core.date.Month
 import java.time.DayOfWeek
 
@@ -14,5 +15,7 @@ data class AddTodoScreenState(
   val minute: Int,
   val selectedDaysOfWeek: List<DayOfWeek>,
   val selectedDayOfMonth: Int,
-  val selectedMonth: Month
+  val selectedMonth: Month,
+  val showPermissionDialog: Boolean,
+  val reqCurrentPermission: PermissionsEnum? = null
 ) : ViewState()

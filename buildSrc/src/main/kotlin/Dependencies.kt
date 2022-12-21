@@ -33,6 +33,7 @@ object Dependencies {
       val pager by lazy { "${accompanistBase}-pager:$ACCOMPANIST" }
       val pagerIndicators by lazy { "${accompanistBase}-pager-indicators:$ACCOMPANIST" }
       val flowLayouts by lazy { "${accompanistBase}-flowlayout:$ACCOMPANIST" }
+      val permissions by lazy { "${accompanistBase}-permissions:$ACCOMPANIST" }
     }
   }
 

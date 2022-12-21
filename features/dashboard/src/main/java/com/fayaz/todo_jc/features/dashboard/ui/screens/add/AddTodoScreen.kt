@@ -2,6 +2,11 @@
 
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -20,6 +25,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -27,6 +33,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,11 +50,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.fayaz.todo_jc.core.permissions.PermissionUtil
+import com.fayaz.todo_jc.core.permissions.DialogAction
+import com.fayaz.todo_jc.core.permissions.PermissionUtilCompose
+import com.fayaz.todo_jc.core.permissions.PermissionsEnum
 import com.fayaz.todo_jc.design_kit.composables.AddImageComposable
 import com.fayaz.todo_jc.design_kit.composables.AppDropDownList
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
 import com.fayaz.todo_jc.design_kit.composables.FieldTitle
+import com.fayaz.todo_jc.design_kit.composables.PermissionDialog
 import com.fayaz.todo_jc.design_kit.composables.Space
 import com.fayaz.todo_jc.design_kit.composables.TimePicker
 import com.fayaz.todo_jc.design_kit.composables.verticalScrollbar
@@ -58,6 +68,7 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing24
 import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
+import com.fayaz.todo_jc.features.dashboard.ui.activity.DashboardActivity
 import com.google.accompanist.flowlayout.FlowRow
 import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MIN_DAYS_OF_MONTH
 import dev.mohammadfayaz.todojc.utils.core.date.Month
@@ -74,7 +85,8 @@ private fun Preview() {
       recurring = false,
       selectedFrequency = EventFrequencyEnum.Daily,
       hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
-      selectedDayOfMonth = 1, selectedMonth = Month.JANUARY
+      selectedDayOfMonth = 1, selectedMonth = Month.JANUARY,
+      showPermissionDialog = false, reqCurrentPermission = PermissionsEnum.Gallery
     )
   ) {}
 }
@@ -84,8 +96,48 @@ fun AddTodoScreen() {
   val viewModel: AddTodoScreenViewModel = hiltViewModel()
   val state = viewModel.viewState.collectAsState().value
   val actor = viewModel::dispatcher
+  val context = LocalContext.current
 
-  Content(state, actor)
+  ListenToEvents(viewModel)
+
+  Surface {
+    if (state.showPermissionDialog && state.reqCurrentPermission != null) {
+      PermissionDialog(permission = state.reqCurrentPermission, {
+        actor(AddTodoScreenEvent.PermissionDialogAction(DialogAction.NEGATIVE))
+      }) {
+        actor(AddTodoScreenEvent.PermissionDialogAction(DialogAction.CONFIRM))
+        openSettingsScreen(context = context)
+      }
+    }
+    Content(state, actor)
+  }
+}
+
+private fun openSettingsScreen(context: Context) {
+  val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+  intent.data = Uri.fromParts("package", context.packageName, null)
+  context.startActivity(intent)
+}
+
+@Composable
+fun ListenToEvents(viewModel: AddTodoScreenViewModel) {
+  val activity = LocalContext.current as DashboardActivity
+  val permissionUtil = PermissionUtilCompose(activity, viewModel)
+  permissionUtil.SetupForComposable()
+
+  LaunchedEffect(Unit) {
+    viewModel.viewEvents.collect {
+      when (it) {
+        is AddTodoScreenEvent.RequestPermission -> {
+          permissionUtil.requestPermission(it.permission)
+        }
+        is AddTodoScreenEvent.SnackBar -> {
+          Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+        }
+        else -> {}
+      }
+    }
+  }
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -149,13 +201,12 @@ private fun Body(
     TimePicker(label = "At", value = generalizeTime(state.hour, state.minute)) { h, m ->
       actor(AddTodoScreenEvent.TimePicked(h, m))
     }
-    AttachmentsComposable()
+    AttachmentsComposable(actor)
   }
 }
 
 @Composable
-private fun AttachmentsComposable() {
-  val context = LocalContext.current
+private fun AttachmentsComposable(actor: (event: AddTodoScreenEvent) -> Unit) {
   FlowRow(
     modifier = Modifier.padding(horizontal = Spacing16, vertical = Spacing8)
   ) {
@@ -166,7 +217,7 @@ private fun AttachmentsComposable() {
         .padding(bottom = Spacing8)
     )
     AddImageComposable(size = 64.dp) {
-
+      actor(AddTodoScreenEvent.RequestPermission(PermissionsEnum.Gallery))
     }
   }
 }
