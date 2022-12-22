@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -145,7 +144,7 @@ fun ListenToEvents(viewModel: AddTodoScreenViewModel) {
           permissionUtil.requestPermission(it.permission)
         }
         is AddTodoScreenEvent.SnackBar -> {
-          Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+          // TODO: Implement snackbar
         }
         else -> {}
       }
@@ -240,14 +239,17 @@ private fun AttachmentsComposable(
         .fillMaxWidth()
         .padding(bottom = Spacing8)
     )
-    for (image in state.attachments) {
+    for (i in 0 until state.attachments.size) {
       AttachmentComposable(
         modifier = Modifier.padding(4.dp),
-        uri = image
-      )
+        uri = state.attachments[i]
+      ) {
+        actor(AddTodoScreenEvent.AttachmentEvent.Remove(i))
+      }
     }
     AddImageComposable(
-      size = 64.dp
+      modifier = Modifier.padding(vertical = Spacing8),
+      size = 64.dp,
     ) {
       actor(AddTodoScreenEvent.AttachmentEvent.LaunchPicker)
     }

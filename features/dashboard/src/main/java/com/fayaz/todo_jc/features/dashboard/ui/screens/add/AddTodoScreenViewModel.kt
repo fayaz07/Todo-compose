@@ -1,7 +1,5 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
-import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.fayaz.todo_jc.core.base.vm.StateViewModel
 import com.fayaz.todo_jc.core.permissions.PermissionCallback
@@ -46,7 +44,6 @@ class AddTodoScreenViewModel @Inject constructor() :
       AddTodo -> {}
       is FormEvent -> handleFormEvent(event)
       is RequestPermission -> {
-        Log.d("perm", "add todo view model initiated gallery permission request")
         viewModelScope.launch {
           viewEvents.emit(event)
         }
@@ -70,8 +67,7 @@ class AddTodoScreenViewModel @Inject constructor() :
           viewEvents.emit(SnackBar("No image picked"))
           return@launch
         }
-        val updatedList = mutableListOf<Uri>()
-        updatedList.addAll(viewState.value.attachments)
+        val updatedList = viewState.value.attachments.toMutableList()
         updatedList.add(event.uri)
         updateState {
           copy(
@@ -83,6 +79,15 @@ class AddTodoScreenViewModel @Inject constructor() :
         viewEvents.emit(RequestPermission(PermissionsEnum.Gallery))
         onPermissionGranted = {
           viewEvents.emit(AttachmentEvent.LaunchPicker)
+        }
+      }
+      is AttachmentEvent.Remove -> {
+        val updatedList = viewState.value.attachments.toMutableList()
+        updatedList.removeAt(event.index)
+        updateState {
+          copy(
+            attachments = updatedList
+          )
         }
       }
     }

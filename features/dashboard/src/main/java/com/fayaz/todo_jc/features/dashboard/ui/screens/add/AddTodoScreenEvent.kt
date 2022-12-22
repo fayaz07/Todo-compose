@@ -29,5 +29,6 @@ sealed class AddTodoScreenEvent : ViewEvent() {
   sealed class AttachmentEvent : AddTodoScreenEvent() {
     object LaunchPicker : AttachmentEvent()
     data class ImagePicked(val uri: Uri?) : AttachmentEvent()
+    data class Remove(val index: Int) : AttachmentEvent()
   }
 }
