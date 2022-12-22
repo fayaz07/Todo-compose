@@ -51,12 +51,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.fayaz.todo_jc.core.content.ImagePicker
 import com.fayaz.todo_jc.core.permissions.DialogAction
 import com.fayaz.todo_jc.core.permissions.PermissionUtilCompose
 import com.fayaz.todo_jc.core.permissions.PermissionsEnum
 import com.fayaz.todo_jc.design_kit.composables.AddImageComposable
 import com.fayaz.todo_jc.design_kit.composables.AppDropDownList
 import com.fayaz.todo_jc.design_kit.composables.AppOutlinedTextField
+import com.fayaz.todo_jc.design_kit.composables.AttachmentComposable
 import com.fayaz.todo_jc.design_kit.composables.FieldTitle
 import com.fayaz.todo_jc.design_kit.composables.PermissionDialog
 import com.fayaz.todo_jc.design_kit.composables.Space
@@ -70,6 +72,7 @@ import com.fayaz.todo_jc.design_kit.theme.Spacing4
 import com.fayaz.todo_jc.design_kit.theme.Spacing8
 import com.fayaz.todo_jc.design_kit.theme.TodoAppTypography
 import com.fayaz.todo_jc.features.dashboard.ui.activity.DashboardActivity
+import com.google.accompanist.flowlayout.FlowCrossAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.MIN_DAYS_OF_MONTH
 import dev.mohammadfayaz.todojc.utils.core.date.Month
@@ -87,7 +90,8 @@ private fun Preview() {
       selectedFrequency = EventFrequencyEnum.Daily,
       hour = 0, minute = 0, selectedDaysOfWeek = emptyList(),
       selectedDayOfMonth = 1, selectedMonth = Month.JANUARY,
-      showPermissionDialog = false, reqCurrentPermission = PermissionsEnum.Gallery
+      showPermissionDialog = false, reqCurrentPermission = PermissionsEnum.Gallery,
+      attachments = emptyList()
     )
   ) {}
 }
@@ -124,11 +128,19 @@ private fun openSettingsScreen(context: Context) {
 fun ListenToEvents(viewModel: AddTodoScreenViewModel) {
   val activity = LocalContext.current as DashboardActivity
   val permissionUtil = PermissionUtilCompose(activity, viewModel)
-  permissionUtil.SetupForComposable()
+  permissionUtil.Initialize()
+
+  val imagePicker = ImagePicker {
+    viewModel.dispatcher(AddTodoScreenEvent.AttachmentEvent.ImagePicked(it))
+  }
+  imagePicker.Initialize()
 
   LaunchedEffect(Unit) {
     viewModel.viewEvents.collect {
       when (it) {
+        is AddTodoScreenEvent.AttachmentEvent.LaunchPicker -> {
+          imagePicker.launch()
+        }
         is AddTodoScreenEvent.RequestPermission -> {
           permissionUtil.requestPermission(it.permission)
         }
@@ -143,6 +155,7 @@ fun ListenToEvents(viewModel: AddTodoScreenViewModel) {
   DisposableEffect(Unit) {
     onDispose {
       permissionUtil.cleanUp()
+      imagePicker.cleanUp()
     }
   }
 }
@@ -206,16 +219,20 @@ private fun Body(
       EventFrequencyField(state, actor, keyboardController, focusManager)
     }
     TimePicker(label = "At", value = generalizeTime(state.hour, state.minute)) { h, m ->
-      actor(AddTodoScreenEvent.TimePicked(h, m))
+      actor(AddTodoScreenEvent.FormEvent.TimePicked(h, m))
     }
-    AttachmentsComposable(actor)
+    AttachmentsComposable(state, actor)
   }
 }
 
 @Composable
-private fun AttachmentsComposable(actor: (event: AddTodoScreenEvent) -> Unit) {
+private fun AttachmentsComposable(
+  state: AddTodoScreenState,
+  actor: (event: AddTodoScreenEvent) -> Unit
+) {
   FlowRow(
-    modifier = Modifier.padding(horizontal = Spacing16, vertical = Spacing8)
+    modifier = Modifier.padding(horizontal = Spacing16, vertical = Spacing8),
+    crossAxisAlignment = FlowCrossAxisAlignment.Center
   ) {
     FieldTitle(
       title = "Add Attachments (Optional)",
@@ -223,8 +240,16 @@ private fun AttachmentsComposable(actor: (event: AddTodoScreenEvent) -> Unit) {
         .fillMaxWidth()
         .padding(bottom = Spacing8)
     )
-    AddImageComposable(size = 64.dp) {
-      actor(AddTodoScreenEvent.RequestPermission(PermissionsEnum.Gallery))
+    for (image in state.attachments) {
+      AttachmentComposable(
+        modifier = Modifier.padding(4.dp),
+        uri = image
+      )
+    }
+    AddImageComposable(
+      size = 64.dp
+    ) {
+      actor(AddTodoScreenEvent.AttachmentEvent.LaunchPicker)
     }
   }
 }
@@ -239,12 +264,12 @@ private fun TitleTextField(
     hint = "a sweet and short label!",
     value = state.title,
     onValueChange = {
-      actor(AddTodoScreenEvent.TitleChanged(it))
+      actor(AddTodoScreenEvent.FormEvent.TitleChanged(it))
     },
     trailingIcon = {
       AnimatedVisibility(visible = state.title.isNotEmpty()) {
         IconButton(onClick = {
-          actor(AddTodoScreenEvent.TitleChanged(""))
+          actor(AddTodoScreenEvent.FormEvent.TitleChanged(""))
         }) {
           Icon(Icons.Default.Clear, "Clear title")
         }
@@ -263,12 +288,12 @@ private fun DescriptionTextField(
     hint = "a brief detail what this is about",
     value = state.description,
     onValueChange = {
-      actor(AddTodoScreenEvent.DescriptionChanged(it))
+      actor(AddTodoScreenEvent.FormEvent.DescriptionChanged(it))
     },
     trailingIcon = {
       AnimatedVisibility(visible = state.description.isNotEmpty()) {
         IconButton(onClick = {
-          actor(AddTodoScreenEvent.DescriptionChanged(""))
+          actor(AddTodoScreenEvent.FormEvent.DescriptionChanged(""))
         }) {
           Icon(Icons.Default.Clear, "Clear description")
         }
@@ -298,7 +323,7 @@ private fun RecursiveToggle(
       onCheckedChange = {
         focusManager.clearFocus()
         keyboardController?.hide()
-        actor(AddTodoScreenEvent.RecurringChanged(it))
+        actor(AddTodoScreenEvent.FormEvent.RecurringChanged(it))
       }
     )
   }
@@ -321,7 +346,7 @@ private fun FrequencyDropDown(
     height = 250.dp,
     display = { it.display },
     onSelected = {
-      actor(AddTodoScreenEvent.FrequencyChanged(it))
+      actor(AddTodoScreenEvent.FormEvent.FrequencyChanged(it))
       focusManager.clearFocus()
     },
     onExpanded = { keyboardController?.hide() }
@@ -422,7 +447,7 @@ private fun SelectedDayChip(day: DayOfWeek, actor: (event: AddTodoScreenEvent) -
         interactionSource = interactionSource,
         indication = null
       ) {
-        actor(AddTodoScreenEvent.UnSelectedDayOfWeek(day))
+        actor(AddTodoScreenEvent.FormEvent.UnSelectedDayOfWeek(day))
       },
     shape = RoundedCornerShape(Spacing16),
     backgroundColor = DeepPurple600
@@ -441,7 +466,7 @@ private fun UnSelectedDayChip(day: DayOfWeek, actor: (event: AddTodoScreenEvent)
         interactionSource = interactionSource,
         indication = null
       ) {
-        actor(AddTodoScreenEvent.SelectedDayOfWeek(day))
+        actor(AddTodoScreenEvent.FormEvent.SelectedDayOfWeek(day))
       },
     border = BorderStroke(1.dp, DeepPurple600),
     shape = RoundedCornerShape(Spacing16),
@@ -484,7 +509,7 @@ private fun DaysDropDown(
     items = days,
     display = { e -> e.toString() },
     onSelected = {
-      actor(AddTodoScreenEvent.SelectedDayOfMonth(it))
+      actor(AddTodoScreenEvent.FormEvent.SelectedDayOfMonth(it))
       focusManager.clearFocus()
     },
     onExpanded = {
@@ -512,7 +537,7 @@ private fun MonthsDropDown(
     items = days,
     display = { e -> e.name.sentence() },
     onSelected = {
-      actor(AddTodoScreenEvent.SelectedMonth(it))
+      actor(AddTodoScreenEvent.FormEvent.SelectedMonth(it))
       focusManager.clearFocus()
     },
     onExpanded = {

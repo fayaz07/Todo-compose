@@ -45,6 +45,8 @@ dependencies {
   implementation(project(Modules.core))
   implementation(project(Modules.utils.core))
 
+  implementation(Dependencies.Media.coil)
+
   implementation(Dependencies.Compose.toolingPreview)
   implementation(Dependencies.Compose.material)
   implementation(Dependencies.Compose.ui)

@@ -23,4 +23,6 @@ object Versions {
   const val HILT_NAVIGATION_COMPOSE = "1.1.0-alpha01"
   const val DAGGER = "2.44"
   const val DATASTORE = "1.0.0"
+
+  const val COIL: String = "2.2.2"
 }

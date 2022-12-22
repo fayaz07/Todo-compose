@@ -8,8 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 
 class PermissionUtilCompose(
   private val activity: Activity,
@@ -18,7 +16,7 @@ class PermissionUtilCompose(
   private lateinit var requester: ActivityResultLauncher<Array<String>>
 
   @Composable
-  fun SetupForComposable() {
+  fun Initialize() {
     requester = rememberLauncherForActivityResult(
       ActivityResultContracts.RequestMultiplePermissions()
     ) {

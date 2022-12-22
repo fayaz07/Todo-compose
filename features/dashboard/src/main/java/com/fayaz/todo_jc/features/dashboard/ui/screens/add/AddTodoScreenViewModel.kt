@@ -1,18 +1,17 @@
 package com.fayaz.todo_jc.features.dashboard.ui.screens.add
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.fayaz.todo_jc.core.base.vm.StateViewModel
-import com.fayaz.todo_jc.core.permissions.DialogAction
 import com.fayaz.todo_jc.core.permissions.PermissionCallback
 import com.fayaz.todo_jc.core.permissions.PermissionsEnum
-import com.fayaz.todo_jc.features.dashboard.ui.activity.DashboardEvent
-import com.fayaz.todo_jc.features.dashboard.ui.activity.DashboardViewModel
 import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.AddTodo
-import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.DescriptionChanged
-import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.FrequencyChanged
-import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.RecurringChanged
-import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.TitleChanged
+import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.AttachmentEvent
+import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.FormEvent
+import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.PermissionDialogAction
+import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.RequestPermission
+import com.fayaz.todo_jc.features.dashboard.ui.screens.add.AddTodoScreenEvent.SnackBar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_HOUR
 import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_MINUTE
@@ -20,30 +19,13 @@ import dev.mohammadfayaz.todojc.utils.core.constants.DateTimeConstants.INITIAL_M
 import dev.mohammadfayaz.todojc.utils.core.date.Month
 import java.time.DayOfWeek
 import javax.inject.Inject
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class AddTodoScreenViewModel @Inject constructor(
-  private val sharedViewModel: DashboardViewModel
-) :
+class AddTodoScreenViewModel @Inject constructor() :
   StateViewModel<AddTodoScreenEvent, AddTodoScreenState>(), PermissionCallback {
-  init {
-    listenToSharedEvents()
-  }
 
-  private fun listenToSharedEvents() {
-    viewModelScope.launch {
-      sharedViewModel.sharedEvents.receiveAsFlow().collect {
-        when (it) {
-          is DashboardEvent.PermissionDenied -> {}
-          is DashboardEvent.PermissionGranted -> {}
-          is DashboardEvent.PermissionPermanentlyDenied -> {}
-          else -> {}
-        }
-      }
-    }
-  }
+  private var onPermissionGranted: (suspend () -> Unit)? = null
 
   override fun setInitialState(): AddTodoScreenState {
     return AddTodoScreenState(
@@ -54,90 +36,98 @@ class AddTodoScreenViewModel @Inject constructor(
       selectedFrequency = EventFrequencyEnum.Daily,
       hour = INITIAL_HOUR, minute = INITIAL_MINUTE, selectedDaysOfWeek = emptyList(),
       selectedDayOfMonth = INITIAL_MONTH, selectedMonth = Month.JANUARY,
-      showPermissionDialog = false, reqCurrentPermission = PermissionsEnum.Gallery
+      showPermissionDialog = false, reqCurrentPermission = PermissionsEnum.Gallery,
+      attachments = emptyList()
     )
   }
 
   override fun dispatcher(event: AddTodoScreenEvent) {
     when (event) {
       AddTodo -> {}
-      is TitleChanged -> {
-        updateState {
-          copy(
-            title = event.value
-          )
-        }
-      }
-      is DescriptionChanged -> {
-        updateState {
-          copy(
-            description = event.value
-          )
-        }
-      }
-      is RecurringChanged -> {
-        updateState {
-          copy(
-            recurring = event.recurring
-          )
-        }
-      }
-      is AddTodoScreenEvent.TimePicked -> {
-        updateState {
-          copy(
-            hour = event.hour,
-            minute = event.minute
-          )
-        }
-      }
-      is AddTodoScreenEvent.SelectedDayOfMonth -> {
-        updateState {
-          copy(
-            selectedDayOfMonth = event.day
-          )
-        }
-      }
-      is AddTodoScreenEvent.SelectedMonth -> updateState {
-        copy(
-          selectedMonth = event.month
-        )
-      }
-      is FrequencyChanged -> handleFrequencyPicked(event)
-      is AddTodoScreenEvent.SelectedDayOfWeek -> handleWeekDaysSelection(event)
-      is AddTodoScreenEvent.UnSelectedDayOfWeek -> handleWeekDayUnSelection(event)
-      is AddTodoScreenEvent.RequestPermission -> {
+      is FormEvent -> handleFormEvent(event)
+      is RequestPermission -> {
         Log.d("perm", "add todo view model initiated gallery permission request")
         viewModelScope.launch {
           viewEvents.emit(event)
         }
-//        sharedViewModel.dispatcher(
-//          DashboardEvent.RequestPermission(
-//            PermissionsEnum.Gallery
-//          )
-//        )
-//        updateState {
-//          copy(
-//            showPermissionDialog = true
-//          )
-//        }
       }
-      is AddTodoScreenEvent.PermissionDialogAction -> {
-        when (event.action) {
-          DialogAction.DISMISS -> {}
-          DialogAction.CONFIRM -> {}
-          DialogAction.NEGATIVE -> {}
-        }
+      is PermissionDialogAction -> {
         updateState {
           copy(
             showPermissionDialog = false
           )
         }
       }
+      is AttachmentEvent -> handleAttachmentEvent(event)
       else -> {}
     }
   }
 
-  private fun handleFrequencyPicked(event: FrequencyChanged) {
+  private fun handleAttachmentEvent(event: AttachmentEvent) {
+    when (event) {
+      is AttachmentEvent.ImagePicked -> viewModelScope.launch {
+        if (event.uri == null) {
+          viewEvents.emit(SnackBar("No image picked"))
+          return@launch
+        }
+        val updatedList = mutableListOf<Uri>()
+        updatedList.addAll(viewState.value.attachments)
+        updatedList.add(event.uri)
+        updateState {
+          copy(
+            attachments = updatedList
+          )
+        }
+      }
+      AttachmentEvent.LaunchPicker -> viewModelScope.launch {
+        viewEvents.emit(RequestPermission(PermissionsEnum.Gallery))
+        onPermissionGranted = {
+          viewEvents.emit(AttachmentEvent.LaunchPicker)
+        }
+      }
+    }
+  }
+
+  private fun handleFormEvent(event: FormEvent) {
+    when (event) {
+      is FormEvent.TitleChanged -> updateState {
+        copy(
+          title = event.value
+        )
+      }
+      is FormEvent.DescriptionChanged -> updateState {
+        copy(
+          description = event.value
+        )
+      }
+      is FormEvent.RecurringChanged -> updateState {
+        copy(
+          recurring = event.recurring
+        )
+      }
+      is FormEvent.TimePicked -> updateState {
+        copy(
+          hour = event.hour,
+          minute = event.minute
+        )
+      }
+      is FormEvent.SelectedDayOfMonth -> updateState {
+        copy(
+          selectedDayOfMonth = event.day
+        )
+      }
+      is FormEvent.SelectedMonth -> updateState {
+        copy(
+          selectedMonth = event.month
+        )
+      }
+      is FormEvent.FrequencyChanged -> handleFrequencyPicked(event)
+      is FormEvent.SelectedDayOfWeek -> handleWeekDaysSelection(event)
+      is FormEvent.UnSelectedDayOfWeek -> handleWeekDayUnSelection(event)
+    }
+  }
+
+  private fun handleFrequencyPicked(event: FormEvent.FrequencyChanged) {
     updateState {
       copy(
         selectedFrequency = event.frequency,
@@ -146,7 +136,7 @@ class AddTodoScreenViewModel @Inject constructor(
     }
   }
 
-  private fun handleWeekDayUnSelection(event: AddTodoScreenEvent.UnSelectedDayOfWeek) {
+  private fun handleWeekDayUnSelection(event: FormEvent.UnSelectedDayOfWeek) {
     val state = viewState.value
     val updatedList = mutableListOf<DayOfWeek>()
     if (state.selectedFrequency == EventFrequencyEnum.SpecificDays) {
@@ -160,7 +150,7 @@ class AddTodoScreenViewModel @Inject constructor(
     }
   }
 
-  private fun handleWeekDaysSelection(event: AddTodoScreenEvent.SelectedDayOfWeek) {
+  private fun handleWeekDaysSelection(event: FormEvent.SelectedDayOfWeek) {
     val state = viewState.value
     val updatedList = mutableListOf<DayOfWeek>()
     if (state.selectedFrequency == EventFrequencyEnum.Weekly) {
@@ -178,7 +168,9 @@ class AddTodoScreenViewModel @Inject constructor(
 
   override fun onGranted(permission: PermissionsEnum) {
     viewModelScope.launch {
-      viewEvents.emit(AddTodoScreenEvent.SnackBar("permission granted"))
+      viewEvents.emit(SnackBar("permission granted"))
+      onPermissionGranted?.invoke()
+      onPermissionGranted = null
     }
   }
 

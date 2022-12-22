@@ -3,6 +3,7 @@ import Versions.ACTIVITY_COMPOSE
 import Versions.ANDROIDX_CORE
 import Versions.ANDROIDX_JUNIT
 import Versions.APP_COMPAT
+import Versions.COIL
 import Versions.COMPOSE
 import Versions.COMPOSE_MATERIAL
 import Versions.DAGGER
@@ -71,5 +72,9 @@ object Dependencies {
     val daggerKapt by lazy { "com.google.dagger:hilt-compiler:$DAGGER" }
     val hiltTest by lazy { "com.google.dagger:hilt-android-testing:$DAGGER" }
     val hiltKaptTest by lazy { "com.google.dagger:hilt-android-compiler:$DAGGER" }
+  }
+
+  object Media {
+    val coil by lazy { "io.coil-kt:coil-compose:$COIL" }
   }
 }

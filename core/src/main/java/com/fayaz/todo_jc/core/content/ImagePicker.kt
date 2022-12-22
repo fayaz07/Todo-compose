@@ -10,12 +10,16 @@ class ImagePicker(private val onImagePicked: (Uri?) -> Unit) {
   private var picker: ManagedActivityResultLauncher<String, Uri?>? = null
 
   @Composable
-  fun Setup() {
+  fun Initialize() {
     picker = rememberLauncherForActivityResult(
       ActivityResultContracts.GetContent()
     ) {
       onImagePicked(it)
     }
+  }
+
+  fun launch() {
+    picker?.launch("image/*")
   }
 
   fun cleanUp() {
