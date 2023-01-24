@@ -9,6 +9,7 @@ import java.time.DayOfWeek
 data class AddTodoScreenState(
   val loading: Boolean,
   val title: String,
+  val titleError: String = "",
   val description: String,
   val recurring: Boolean,
   val selectedFrequency: EventFrequencyEnum,

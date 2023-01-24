@@ -19,7 +19,6 @@ object Modules {
     private const val data = ":data"
     const val prefs = data + ":prefs"
     const val repository = data + ":repository"
-    const val usecase = data + ":usecase"
   }
 
   object namespaces {
@@ -33,6 +32,5 @@ object Modules {
     const val prefs = "com.fayaz.todo_jc.data.prefs"
     const val repository = "com.fayaz.todo_jc.data.repository"
     const val domain = "com.fayaz.todo_jc.domain"
-    const val usecase = "com.fayaz.todo_jc.data.usecase"
   }
 }

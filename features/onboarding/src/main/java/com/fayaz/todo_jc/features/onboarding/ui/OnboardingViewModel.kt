@@ -4,21 +4,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fayaz.todo_jc.domain.data.prefs.PrefsRepo
+import com.fayaz.todo_jc.features.onboarding.domain.CheckLoggedInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-  private val prefsRepo: PrefsRepo
+  private val checkLoggedInUseCase: CheckLoggedInUseCase
 ) : ViewModel() {
   private val _ld = MutableLiveData<Boolean>()
   val ld: LiveData<Boolean> = _ld
 
   fun loggedIn() {
     viewModelScope.launch {
-      prefsRepo.loggedIn()
+      checkLoggedInUseCase.invoke().first()
       _ld.postValue(true)
     }
   }

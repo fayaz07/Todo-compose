@@ -41,7 +41,7 @@ class AddTodoScreenViewModel @Inject constructor() :
 
   override fun dispatcher(event: AddTodoScreenEvent) {
     when (event) {
-      AddTodo -> {}
+      AddTodo -> handleTodoSubmit()
       is FormEvent -> handleFormEvent(event)
       is RequestPermission -> {
         viewModelScope.launch {
@@ -57,6 +57,30 @@ class AddTodoScreenViewModel @Inject constructor() :
       }
       is AttachmentEvent -> handleAttachmentEvent(event)
       else -> {}
+    }
+  }
+
+  private fun handleTodoSubmit() {
+    viewModelScope.launch {
+      val state = viewState.value
+      validateTitle(state.title)
+    }
+  }
+
+  private fun validateTitle(title: String) {
+    if (title.isEmpty()) {
+      updateState {
+        copy(
+          titleError = "Title cannot be empty"
+        )
+      }
+    }
+    if (title.length > 50) {
+      updateState {
+        copy(
+          titleError = "Title cannot be empty"
+        )
+      }
     }
   }
 

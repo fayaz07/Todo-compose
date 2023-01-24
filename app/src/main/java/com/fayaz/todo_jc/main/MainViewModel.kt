@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fayaz.todo_jc.data.usecase.CheckLoggedInUseCase
+import com.fayaz.todo_jc.features.onboarding.domain.CheckLoggedInUseCase
 import com.fayaz.todo_jc.main.MainActivityEvent.LoginCheckComplete
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

@@ -54,7 +54,6 @@ dependencies {
   implementation(project(Modules.designKit))
   implementation(project(Modules.core))
   implementation(project(Modules.domain))
-  implementation(project(Modules.data.usecase))
   implementation(project(Modules.data.prefs))
   implementation(project(Modules.data.repository))
   implementation(project(Modules.feature.onboarding))
